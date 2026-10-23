@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import SpatialSimulatorModal from './components/SpatialSimulatorModal';
 import SpatialStudioModal from './components/SpatialStudioModal';
@@ -166,9 +166,9 @@ function MainContent() {
 export default function App() {
   return (
     <ThemeProvider>
-      <BrowserRouter>
+      <HashRouter>
         <MainContent />
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   );
 }

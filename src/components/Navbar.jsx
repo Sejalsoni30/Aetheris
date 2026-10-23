@@ -1,10 +1,36 @@
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Sparkles, Layers, Activity, Cpu, Menu, X, Terminal, ArrowUpRight } from 'lucide-react';
+import { 
+  Volume2, 
+  VolumeX, 
+  Sparkles, 
+  Layers, 
+  Activity, 
+  Cpu, 
+  Menu, 
+  X, 
+  Box, 
+  Eye, 
+  Bot, 
+  TrendingUp, 
+  ArrowUpRight 
+} from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
 
 export default function Navbar() {
-  const { theme, audioEnabled, setAudioEnabled, setIsSimulatorOpen, setIsSandboxOpen } = useTheme();
+  const { 
+    theme, 
+    audioEnabled, 
+    setAudioEnabled, 
+    setIsSimulatorOpen, 
+    setIsSandboxOpen,
+    setIsStudioOpen,
+    setIsHeatmapOpen,
+    setIsAgentSwarmOpen,
+    setIsRoiModalOpen,
+    customCampaigns 
+  } = useTheme();
+
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -42,8 +68,8 @@ export default function Navbar() {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
       scrolled 
-        ? 'py-3 bg-[#030712]/80 backdrop-blur-xl border-b border-white/[0.08] shadow-2xl' 
-        : 'py-5 bg-transparent'
+        ? 'py-2.5 bg-[#030712]/85 backdrop-blur-xl border-b border-white/[0.08] shadow-2xl' 
+        : 'py-4 bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -78,63 +104,77 @@ export default function Navbar() {
             </div>
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl rounded-full px-4 py-1.5 shadow-inner">
+          {/* Desktop Navigation Links & Exploration Hub */}
+          <nav className="hidden lg:flex items-center space-x-1 bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl rounded-full px-3 py-1 shadow-inner">
             <button
-              onClick={() => handleNavClick('#neural-core')}
+              onClick={() => { sound.playClick(); setIsStudioOpen(true); }}
               onMouseEnter={() => sound.playHover()}
-              className="px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5"
+              className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5 cursor-pointer"
             >
-              <Cpu className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Neural Core</span>
+              <Box className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Studio</span>
+              {customCampaigns.length > 0 && (
+                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
+                  {customCampaigns.length}
+                </span>
+              )}
             </button>
 
             <button
-              onClick={() => handleNavClick('#features')}
+              onClick={() => { sound.playClick(); setIsHeatmapOpen(true); }}
               onMouseEnter={() => sound.playHover()}
-              className="px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5"
+              className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5 cursor-pointer"
             >
-              <Layers className="w-3.5 h-3.5 text-purple-400" />
-              <span>Spatial Bento</span>
+              <Eye className="w-3.5 h-3.5 text-amber-400" />
+              <span>Heatmap</span>
+            </button>
+
+            <button
+              onClick={() => { sound.playClick(); setIsAgentSwarmOpen(true); }}
+              onMouseEnter={() => sound.playHover()}
+              className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5 cursor-pointer"
+            >
+              <Bot className="w-3.5 h-3.5 text-purple-400" />
+              <span>Swarm</span>
+            </button>
+
+            <button
+              onClick={() => { sound.playClick(); setIsRoiModalOpen(true); }}
+              onMouseEnter={() => sound.playHover()}
+              className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5 cursor-pointer"
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+              <span>ROI Model</span>
             </button>
 
             <button
               onClick={() => handleNavClick('#telemetry')}
               onMouseEnter={() => sound.playHover()}
-              className="px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5"
+              className="px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/[0.06] transition-all flex items-center space-x-1.5 cursor-pointer"
             >
-              <Activity className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Live Telemetry</span>
-            </button>
-
-            <button
-              onClick={() => { sound.playClick(); setIsSandboxOpen(true); }}
-              onMouseEnter={() => sound.playHover()}
-              className="px-3.5 py-1.5 text-xs font-medium text-amber-300 hover:text-amber-200 rounded-full hover:bg-amber-500/10 transition-all flex items-center space-x-1.5"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-              <span>Sandbox</span>
+              <Activity className="w-3.5 h-3.5 text-blue-400" />
+              <span>Telemetry</span>
             </button>
           </nav>
 
           {/* Right Action Hub */}
           <div className="hidden sm:flex items-center space-x-3">
             
-            {/* FPS & Latency Pill */}
-            <div className="hidden lg:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-400">
+            {/* FPS Pill */}
+            <div className="hidden xl:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] text-[11px] font-mono text-slate-400">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
               <span>60 FPS</span>
               <span className="text-white/20">|</span>
-              <span className="text-cyan-400">12ms bus</span>
+              <span className="text-cyan-400">0.8ms Raycast</span>
             </div>
 
             {/* Audio Toggle */}
             <button
               onClick={toggleAudio}
-              className={`p-2 rounded-xl border transition-all duration-200 ${
+              className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer ${
                 audioEnabled 
                   ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300 shadow-[0_0_12px_rgba(0,242,254,0.3)]' 
                   : 'bg-white/[0.03] border-white/10 text-slate-400 hover:text-white'
@@ -148,21 +188,21 @@ export default function Navbar() {
             <button
               onClick={openLaunchModal}
               onMouseEnter={() => sound.playHover()}
-              className="relative group overflow-hidden rounded-xl p-[1px] font-medium text-xs transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg"
+              className="relative group overflow-hidden rounded-xl p-[1px] font-medium text-xs transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
             >
               <span 
                 className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-violet-500 to-cyan-400 rounded-xl animate-shimmer"
                 style={{ backgroundSize: '200% 100%' }}
               />
               <span className="relative block px-4 py-2 rounded-xl bg-slate-950/90 text-white font-semibold backdrop-blur-md transition-colors group-hover:bg-slate-950/70 flex items-center space-x-1.5">
-                <span>Launch Experience</span>
+                <span>Launch Console</span>
                 <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-cyan-300" />
               </span>
             </button>
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center space-x-2">
+          <div className="flex lg:hidden items-center space-x-2">
             <button
               onClick={toggleAudio}
               className="p-2 rounded-lg bg-white/5 border border-white/10 text-slate-300"
@@ -181,41 +221,57 @@ export default function Navbar() {
 
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden mt-3 p-4 rounded-2xl bg-slate-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl space-y-3">
+          <div className="lg:hidden mt-3 p-4 rounded-2xl bg-slate-950/95 border border-white/10 backdrop-blur-2xl shadow-2xl space-y-2">
             <button
-              onClick={() => handleNavClick('#neural-core')}
+              onClick={() => { sound.playClick(); setIsStudioOpen(true); setMobileMenuOpen(false); }}
+              className="w-full text-left px-3 py-2 text-sm text-slate-200 hover:bg-white/5 rounded-lg flex items-center justify-between"
+            >
+              <span className="flex items-center space-x-2">
+                <Box className="w-4 h-4 text-cyan-400" />
+                <span>Spatial Campaign Studio</span>
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300">
+                {customCampaigns.length} Active
+              </span>
+            </button>
+
+            <button
+              onClick={() => { sound.playClick(); setIsHeatmapOpen(true); setMobileMenuOpen(false); }}
               className="w-full text-left px-3 py-2 text-sm text-slate-200 hover:bg-white/5 rounded-lg flex items-center space-x-2"
             >
-              <Cpu className="w-4 h-4 text-cyan-400" />
-              <span>Neural Core</span>
+              <Eye className="w-4 h-4 text-amber-400" />
+              <span>Gaze Intent Heatmap</span>
             </button>
+
             <button
-              onClick={() => handleNavClick('#features')}
+              onClick={() => { sound.playClick(); setIsAgentSwarmOpen(true); setMobileMenuOpen(false); }}
               className="w-full text-left px-3 py-2 text-sm text-slate-200 hover:bg-white/5 rounded-lg flex items-center space-x-2"
             >
-              <Layers className="w-4 h-4 text-purple-400" />
-              <span>Spatial Bento</span>
+              <Bot className="w-4 h-4 text-purple-400" />
+              <span>AI Agent Swarm Deck</span>
             </button>
+
             <button
-              onClick={() => handleNavClick('#telemetry')}
+              onClick={() => { sound.playClick(); setIsRoiModalOpen(true); setMobileMenuOpen(false); }}
               className="w-full text-left px-3 py-2 text-sm text-slate-200 hover:bg-white/5 rounded-lg flex items-center space-x-2"
             >
-              <Activity className="w-4 h-4 text-emerald-400" />
-              <span>Live Telemetry</span>
+              <TrendingUp className="w-4 h-4 text-emerald-400" />
+              <span>Spatial ROI Predictor</span>
             </button>
+
             <button
               onClick={() => { sound.playClick(); setIsSandboxOpen(true); setMobileMenuOpen(false); }}
               className="w-full text-left px-3 py-2 text-sm text-amber-300 hover:bg-amber-500/10 rounded-lg flex items-center space-x-2"
             >
               <Sparkles className="w-4 h-4 text-amber-400" />
-              <span>Open 3D Sandbox Drawer</span>
+              <span>3D WebGL Shader Sandbox</span>
             </button>
 
             <button
               onClick={() => { setMobileMenuOpen(false); openLaunchModal(); }}
-              className="w-full py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-center text-sm shadow-lg flex items-center justify-center space-x-2"
+              className="w-full py-2.5 mt-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold text-center text-sm shadow-lg flex items-center justify-center space-x-2"
             >
-              <span>Launch Experience</span>
+              <span>Launch Console</span>
               <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>

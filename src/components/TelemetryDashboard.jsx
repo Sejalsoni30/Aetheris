@@ -1,13 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Globe, Zap, TrendingUp, ShieldAlert, Radio, Server, ArrowUpRight, Filter } from 'lucide-react';
+import { 
+  Activity, 
+  Globe, 
+  Zap, 
+  TrendingUp, 
+  ShieldAlert, 
+  Radio, 
+  Server, 
+  ArrowUpRight, 
+  Filter, 
+  PlusCircle, 
+  Pause, 
+  Play,
+  Layers
+} from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
 
 export default function TelemetryDashboard() {
-  const { theme } = useTheme();
+  const { theme, customCampaigns, setIsStudioOpen } = useTheme();
   const [timeframe, setTimeframe] = useState('24h');
+  const [isStreamPaused, setIsStreamPaused] = useState(false);
 
-  // Animated counters based on timeframe
+  // Timeframe statistics
   const timeframeData = {
     '24h': { reach: '48.6M', signals: '99.4%', roi: '8.4x', nodes: '14,892', ops: '4.8B' },
     '7d': { reach: '298.2M', signals: '99.7%', roi: '9.1x', nodes: '15,240', ops: '32.4B' },
@@ -17,7 +32,7 @@ export default function TelemetryDashboard() {
 
   const current = timeframeData[timeframe];
 
-  // Live streaming events
+  // Dynamic live streaming events
   const [liveEvents, setLiveEvents] = useState([
     { id: 1, city: 'Tokyo, JP', node: 'Edge-NRT-04', type: 'Spatial Checkout', val: '$840.00', latency: '0.42ms', time: 'Just now' },
     { id: 2, city: 'San Francisco, US', node: 'Edge-SFO-09', type: 'XR Gaze Synthesizer', val: 'High-Intent', latency: '0.38ms', time: '1s ago' },
@@ -26,6 +41,8 @@ export default function TelemetryDashboard() {
   ]);
 
   useEffect(() => {
+    if (isStreamPaused) return;
+
     const cities = [
       { city: 'Tokyo, JP', node: 'Edge-NRT-04' },
       { city: 'San Francisco, US', node: 'Edge-SFO-09' },
@@ -48,22 +65,50 @@ export default function TelemetryDashboard() {
       const randomType = types[Math.floor(Math.random() * types.length)];
       const randomLat = (0.25 + Math.random() * 0.35).toFixed(2) + 'ms';
 
+      // Check if user has custom campaigns to highlight in the stream
+      let eventType = randomType.type;
+      let eventVal = randomType.val;
+      if (customCampaigns.length > 0 && Math.random() > 0.6) {
+        const camp = customCampaigns[Math.floor(Math.random() * customCampaigns.length)];
+        eventType = `Campaign: ${camp.name}`;
+        eventVal = `Lift ${camp.roi}`;
+      }
+
       setLiveEvents(prev => [
         {
           id: Date.now(),
           city: randomCity.city,
           node: randomCity.node,
-          type: randomType.type,
-          val: randomType.val,
+          type: eventType,
+          val: eventVal,
           latency: randomLat,
           time: 'Just now'
         },
-        ...prev.slice(0, 3)
+        ...prev.slice(0, 4)
       ]);
-    }, 3500);
+    }, 3200);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isStreamPaused, customCampaigns]);
+
+  const handleInjectEvent = () => {
+    sound.playQuantumBeep();
+    const cities = ['Zurich, CH', 'Paris, FR', 'Dubai, UAE', 'Toronto, CA', 'Sydney, AU'];
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+
+    setLiveEvents(prev => [
+      {
+        id: Date.now(),
+        city: randomCity,
+        node: 'Edge-DIRECT-01',
+        type: 'Manual Synthetic Injection',
+        val: 'Conversion Lift +380%',
+        latency: '0.19ms',
+        time: 'Just now'
+      },
+      ...prev.slice(0, 4)
+    ]);
+  };
 
   return (
     <section id="telemetry" className="relative py-28 px-4 sm:px-6 lg:px-8 z-10 max-w-7xl mx-auto">
@@ -74,7 +119,7 @@ export default function TelemetryDashboard() {
           <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full glass-pill mb-4 border border-white/10">
             <Activity className="w-3.5 h-3.5 text-emerald-400" />
             <span className="text-xs font-mono uppercase tracking-wider text-slate-300">
-              Global Telemetry Stream
+              Global Telemetry Stream & Mesh
             </span>
           </div>
           
@@ -89,27 +134,42 @@ export default function TelemetryDashboard() {
           </h2>
         </div>
 
-        {/* Timeframe Switcher */}
-        <div className="flex items-center space-x-1 p-1 rounded-2xl bg-slate-950/80 border border-white/10 backdrop-blur-xl">
-          {['24h', '7d', '30d', 'all'].map((tf) => {
-            const isActive = timeframe === tf;
-            return (
-              <button
-                key={tf}
-                onClick={() => {
-                  sound.playClick();
-                  setTimeframe(tf);
-                }}
-                className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
-                  isActive 
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 text-cyan-200 shadow-md' 
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {tf.toUpperCase()}
-              </button>
-            );
-          })}
+        {/* Action Controls */}
+        <div className="flex items-center space-x-3">
+          
+          {/* Inject Event Button */}
+          <button
+            onClick={handleInjectEvent}
+            onMouseEnter={() => sound.playHover()}
+            className="px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-cyan-500/10 border border-cyan-400/40 text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center space-x-1.5 cursor-pointer"
+          >
+            <PlusCircle className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Inject Telemetry Event</span>
+          </button>
+
+          {/* Timeframe Switcher */}
+          <div className="flex items-center space-x-1 p-1 rounded-2xl bg-slate-950/80 border border-white/10 backdrop-blur-xl">
+            {['24h', '7d', '30d', 'all'].map((tf) => {
+              const isActive = timeframe === tf;
+              return (
+                <button
+                  key={tf}
+                  onClick={() => {
+                    sound.playClick();
+                    setTimeframe(tf);
+                  }}
+                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
+                    isActive 
+                      ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 text-cyan-200 shadow-md' 
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {tf.toUpperCase()}
+                </button>
+              );
+            })}
+          </div>
+
         </div>
       </div>
 
@@ -132,8 +192,8 @@ export default function TelemetryDashboard() {
             Verified spatial XR & 3D WebGL impressions
           </div>
           <div className="mt-4 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] font-mono">
-            <span className="text-slate-500">Global Cluster:</span>
-            <span className="text-cyan-300">Active</span>
+            <span className="text-slate-500">Active Campaigns:</span>
+            <span className="text-cyan-300">{customCampaigns.length} Live</span>
           </div>
         </div>
 
@@ -223,9 +283,19 @@ export default function TelemetryDashboard() {
           </div>
 
           <div className="flex items-center space-x-3 text-xs font-mono">
-            <span className="text-slate-500">STREAM STATUS:</span>
+            <button
+              onClick={() => {
+                sound.playClick();
+                setIsStreamPaused(!isStreamPaused);
+              }}
+              className="p-1.5 rounded-lg bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center space-x-1 cursor-pointer"
+            >
+              {isStreamPaused ? <Play className="w-3.5 h-3.5 text-emerald-400" /> : <Pause className="w-3.5 h-3.5 text-amber-400" />}
+              <span>{isStreamPaused ? 'Resume Stream' : 'Pause Stream'}</span>
+            </button>
+
             <span className="px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-bold">
-              CONNECTED 60FPS
+              {isStreamPaused ? 'PAUSED' : 'CONNECTED 60FPS'}
             </span>
           </div>
         </div>
@@ -235,7 +305,7 @@ export default function TelemetryDashboard() {
           {liveEvents.map((evt) => (
             <div 
               key={evt.id}
-              className="py-4 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-3 hover:bg-white/[0.02] px-2 rounded-xl transition-colors"
+              className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-3 hover:bg-white/[0.02] px-2 rounded-xl transition-colors"
             >
               <div className="flex items-center space-x-3">
                 <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />

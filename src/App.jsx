@@ -8,6 +8,10 @@ import BentoFeatures from './components/BentoFeatures';
 import TelemetryDashboard from './components/TelemetryDashboard';
 import ExperiencePlayground from './components/ExperiencePlayground';
 import SpatialSimulatorModal from './components/SpatialSimulatorModal';
+import SpatialStudioModal from './components/SpatialStudioModal';
+import InteractiveHeatmapModal from './components/InteractiveHeatmapModal';
+import AgentSwarmModal from './components/AgentSwarmModal';
+import RoiCalculatorModal from './components/RoiCalculatorModal';
 import Footer from './components/Footer';
 
 function SpatialCursor() {
@@ -30,7 +34,7 @@ function SpatialCursor() {
 
       // Check if hovering over clickable element
       const target = e.target;
-      if (target && (target.closest('button') || target.closest('a') || target.closest('input'))) {
+      if (target && (target.closest('button') || target.closest('a') || target.closest('input') || target.closest('select'))) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
@@ -110,8 +114,12 @@ function MainContent() {
       {/* Floating 3D Experience Playground / Shader Switcher */}
       <ExperiencePlayground />
 
-      {/* Launch Experience Interactive Simulator Modal */}
+      {/* Modals Suite for Real-Time Dynamic Exploration */}
       <SpatialSimulatorModal />
+      <SpatialStudioModal />
+      <InteractiveHeatmapModal />
+      <AgentSwarmModal />
+      <RoiCalculatorModal />
 
     </div>
   );

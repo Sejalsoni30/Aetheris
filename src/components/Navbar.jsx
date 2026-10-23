@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   Volume2, 
   VolumeX, 
@@ -31,6 +32,8 @@ export default function Navbar() {
     customCampaigns 
   } = useTheme();
 
+  const navigate = useNavigate();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -54,9 +57,13 @@ export default function Navbar() {
   const handleNavClick = (anchor) => {
     sound.playClick();
     setMobileMenuOpen(false);
-    const el = document.querySelector(anchor);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/' + anchor);
+    } else {
+      const el = document.querySelector(anchor);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -75,9 +82,14 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           
           {/* Brand Logo */}
-          <a 
-            href="#" 
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          <Link 
+            to="/" 
+            onClick={() => {
+              sound.playClick();
+              if (location.pathname === '/') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
             onMouseEnter={() => sound.playHover()}
             className="flex items-center space-x-3 group cursor-pointer"
           >
@@ -102,7 +114,7 @@ export default function Navbar() {
                 Spatial Intent Engine
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation Links & Exploration Hub */}
           <nav className="hidden lg:flex items-center space-x-1 bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl rounded-full px-3 py-1 shadow-inner">

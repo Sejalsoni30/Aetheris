@@ -1,18 +1,43 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
-import ThreeHeroScene from './components/ThreeHeroScene';
-import Navbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import NeuralCoreSection from './components/NeuralCoreSection';
-import BentoFeatures from './components/BentoFeatures';
-import TelemetryDashboard from './components/TelemetryDashboard';
-import ExperiencePlayground from './components/ExperiencePlayground';
 import SpatialSimulatorModal from './components/SpatialSimulatorModal';
 import SpatialStudioModal from './components/SpatialStudioModal';
 import InteractiveHeatmapModal from './components/InteractiveHeatmapModal';
 import AgentSwarmModal from './components/AgentSwarmModal';
 import RoiCalculatorModal from './components/RoiCalculatorModal';
-import Footer from './components/Footer';
+
+// Pages
+import HomePage from './pages/HomePage';
+import NeuralCorePage from './pages/NeuralCorePage';
+import FeaturesPage from './pages/FeaturesPage';
+import TelemetryPage from './pages/TelemetryPage';
+import SimulatorPage from './pages/SimulatorPage';
+import VisionOsPage from './pages/VisionOsPage';
+import HorizonOsPage from './pages/HorizonOsPage';
+import WebGlPage from './pages/WebGlPage';
+import WebXrPage from './pages/WebXrPage';
+import PrivacyPage from './pages/PrivacyPage';
+import SecurityPage from './pages/SecurityPage';
+import TermsPage from './pages/TermsPage';
+import CommunityPage from './pages/CommunityPage';
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [pathname, hash]);
+
+  return null;
+}
 
 function SpatialCursor() {
   const { theme } = useTheme();
@@ -88,31 +113,44 @@ function MainContent() {
   return (
     <div className="relative min-h-screen bg-[#030712] text-slate-100 overflow-x-hidden">
       
+      {/* Automatically Scroll To Top on Route Changes */}
+      <ScrollToTop />
+
       {/* Interactive Custom Cursor */}
       <SpatialCursor />
-
-      {/* WebGL 3D Interactive Hero Canvas */}
-      <ThreeHeroScene />
 
       {/* Subtle Noise / Grid Overlay */}
       <div className="fixed inset-0 bg-grid-cyber opacity-15 pointer-events-none z-0" />
 
-      {/* Navigation */}
-      <Navbar />
+      {/* Application Routes */}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        
+        {/* Architecture Routes */}
+        <Route path="/architecture/neural-core" element={<NeuralCorePage />} />
+        <Route path="/architecture/features" element={<FeaturesPage />} />
+        <Route path="/architecture/telemetry" element={<TelemetryPage />} />
+        <Route path="/architecture/simulator" element={<SimulatorPage />} />
 
-      {/* Hero Section */}
-      <main className="relative z-10 flex flex-col">
-        <HeroSection />
-        <NeuralCoreSection />
-        <BentoFeatures />
-        <TelemetryDashboard />
-      </main>
+        {/* Platform Routes */}
+        <Route path="/platforms/visionos" element={<VisionOsPage />} />
+        <Route path="/platforms/horizon-os" element={<HorizonOsPage />} />
+        <Route path="/platforms/webgl" element={<WebGlPage />} />
+        <Route path="/platforms/webxr" element={<WebXrPage />} />
 
-      {/* Footer */}
-      <Footer />
+        {/* Legal & Protocol Routes */}
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/security" element={<SecurityPage />} />
+        <Route path="/terms" element={<TermsPage />} />
 
-      {/* Floating 3D Experience Playground / Shader Switcher */}
-      <ExperiencePlayground />
+        {/* Community & Ecosystem Routes */}
+        <Route path="/community/github" element={<CommunityPage initialChannel="github" />} />
+        <Route path="/community/network" element={<CommunityPage initialChannel="network" />} />
+        <Route path="/community/discord" element={<CommunityPage initialChannel="discord" />} />
+
+        {/* Catch-all Fallback */}
+        <Route path="*" element={<HomePage />} />
+      </Routes>
 
       {/* Modals Suite for Real-Time Dynamic Exploration */}
       <SpatialSimulatorModal />
@@ -128,7 +166,9 @@ function MainContent() {
 export default function App() {
   return (
     <ThemeProvider>
-      <MainContent />
+      <BrowserRouter>
+        <MainContent />
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

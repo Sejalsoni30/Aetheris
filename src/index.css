@@ -8,6 +8,16 @@
     --theme-secondary: #4facfe;
     --theme-glow: rgba(0, 242, 254, 0.45);
     --theme-accent: #8b5cf6;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
   }
 
   body {
@@ -15,11 +25,19 @@
     color: #f1f5f9;
     font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     overflow-x: hidden;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  button, a, input, select, textarea {
+    touch-action: manipulation;
   }
 
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background: #030712;
@@ -31,6 +49,20 @@
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 242, 254, 0.5);
   }
+}
+
+/* Touch & Mobile Utilities */
+.touch-momentum {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
+}
+
+/* Safe area padding utilities */
+.safe-top {
+  padding-top: max(1rem, env(safe-area-inset-top));
+}
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
 /* Glassmorphism Styles */

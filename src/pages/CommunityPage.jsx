@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import { MessageSquare, Share2, Globe, ArrowUpRight, Terminal, Heart, Users, Sparkles, ExternalLink } from 'lucide-react';
@@ -7,9 +7,19 @@ import { sound } from '../utils/sound';
 export default function CommunityPage({ initialChannel = 'discord' }) {
   const [activeTab, setActiveTab] = useState(initialChannel);
 
+  useEffect(() => {
+    setActiveTab(initialChannel);
+  }, [initialChannel]);
+
+  const channelTitles = {
+    discord: 'Discord Guild',
+    github: 'GitHub Repositories',
+    network: 'Spatial X Network'
+  };
+
   return (
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
-      <PageHeader section="Connect" title="Developer Ecosystem" />
+      <PageHeader section="Connect" title={channelTitles[activeTab] || 'Developer Ecosystem'} />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         

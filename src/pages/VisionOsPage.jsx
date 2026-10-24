@@ -83,12 +83,22 @@ kernel void aetherisVolumetricHologram(
 }`
   };
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+  const handlePointer = (clientX, clientY, currentTarget) => {
+    const rect = currentTarget.getBoundingClientRect();
+    const x = Math.round(((clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((clientY - rect.top) / rect.height) * 100);
     setMouseCoord({ x, y });
     setGazeConfidence(Number((95 + Math.random() * 4.9).toFixed(1)));
+  };
+
+  const handleMouseMove = (e) => {
+    handlePointer(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      handlePointer(e.touches[0].clientX, e.touches[0].clientY, e.currentTarget);
+    }
   };
 
   const copyCode = () => {
@@ -105,7 +115,7 @@ kernel void aetherisVolumetricHologram(
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
         {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-purple-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-purple-950/40 backdrop-blur-2xl p-6 sm:p-12 lg:p-16 shadow-2xl">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 max-w-4xl space-y-6">
@@ -114,34 +124,34 @@ kernel void aetherisVolumetricHologram(
               <span>APPLE VISION PRO NATIVE RUNTIME • REALITYKIT 2.0</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight break-words">
               Aetheris for <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-indigo-400">
                 Apple VisionOS Ecosystem
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
+            <p className="text-slate-200 text-sm sm:text-base leading-relaxed font-normal max-w-2xl">
               Natively engineered for Apple Vision Pro. Seamlessly bind 3D ad trajectories to RealityKit scenes with zero raw eye-tracking leakage, full SwiftUI integration, and 90Hz Metal shader compute.
             </p>
 
             {/* Live High-Tech HUD Metrics Ticker */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 pt-4">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Optical Display</div>
-                <div className="text-sm font-mono font-bold text-cyan-300">Dual 4K Micro-OLED</div>
+                <div className="text-xs sm:text-sm font-mono font-bold text-cyan-300">Dual 4K Micro-OLED</div>
               </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Frame Budget</div>
-                <div className="text-sm font-mono font-bold text-purple-300">11.1ms (90Hz Solid)</div>
+                <div className="text-xs sm:text-sm font-mono font-bold text-purple-300">11.1ms (90Hz)</div>
               </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Privacy Standard</div>
-                <div className="text-sm font-mono font-bold text-emerald-300">Blinded Foveation</div>
+                <div className="text-xs sm:text-sm font-mono font-bold text-emerald-300">Blinded Foveation</div>
               </div>
-              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+              <div className="p-3 sm:p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Framework Hook</div>
-                <div className="text-sm font-mono font-bold text-amber-300">SwiftUI RealityView</div>
+                <div className="text-xs sm:text-sm font-mono font-bold text-amber-300">SwiftUI RealityView</div>
               </div>
             </div>
 
@@ -152,7 +162,7 @@ kernel void aetherisVolumetricHologram(
                   sound.playClick();
                   document.getElementById('vision-viewport')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
               >
                 <Zap className="w-3.5 h-3.5" />
                 <span>Test 4K Headset Viewport</span>
@@ -160,7 +170,7 @@ kernel void aetherisVolumetricHologram(
               
               <button
                 onClick={copyCode}
-                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+                className="px-4 sm:px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
               >
                 <Terminal className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Copy RealityKit SDK</span>
@@ -170,7 +180,7 @@ kernel void aetherisVolumetricHologram(
         </div>
 
         {/* ================= INTERACTIVE SECTION: Vision Pro Spatial Viewport Simulator ================= */}
-        <div id="vision-viewport" className="rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="vision-viewport" className="rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-5 sm:p-10 shadow-2xl space-y-6 sm:space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -182,11 +192,11 @@ kernel void aetherisVolumetricHologram(
                 Interactive Vision Pro Spatial Viewport
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                Move your cursor to test RealityKit volumetric anchor depth and foveated rendering focus.
+                Move cursor or drag touch to test RealityKit volumetric anchor depth and foveated rendering focus.
               </p>
             </div>
 
-            <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'windowed', label: 'Windowed 2D' },
                 { id: 'volumetric', label: 'Volumetric 3D' },
@@ -210,7 +220,9 @@ kernel void aetherisVolumetricHologram(
           {/* Interactive Viewport Canvas Box */}
           <div 
             onMouseMove={handleMouseMove}
-            className="relative h-80 sm:h-96 rounded-2xl border-2 border-white/20 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden select-none cursor-crosshair flex items-center justify-center group shadow-2xl"
+            onTouchMove={handleTouchMove}
+            onTouchStart={handleTouchMove}
+            className="relative h-72 sm:h-96 rounded-2xl border-2 border-white/20 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden select-none cursor-crosshair flex items-center justify-center group shadow-2xl"
           >
             <div className="absolute inset-0 bg-grid-cyber opacity-25" />
 

@@ -84,25 +84,44 @@ export default function WebGlPage() {
     let isDragging = false;
     let prevMouse = { x: 0, y: 0 };
 
-    const handleMouseDown = (e) => {
+    const handleStart = (clientX, clientY) => {
       isDragging = true;
-      prevMouse = { x: e.clientX, y: e.clientY };
+      prevMouse = { x: clientX, y: clientY };
     };
 
-    const handleMouseMove = (e) => {
+    const handleMove = (clientX, clientY) => {
       if (!isDragging) return;
-      const deltaX = e.clientX - prevMouse.x;
-      const deltaY = e.clientY - prevMouse.y;
+      const deltaX = clientX - prevMouse.x;
+      const deltaY = clientY - prevMouse.y;
       mesh.rotation.y += deltaX * 0.01;
       mesh.rotation.x += deltaY * 0.01;
-      prevMouse = { x: e.clientX, y: e.clientY };
+      prevMouse = { x: clientX, y: clientY };
     };
 
-    const handleMouseUp = () => { isDragging = false; };
+    const handleEnd = () => { isDragging = false; };
+
+    const handleMouseDown = (e) => handleStart(e.clientX, e.clientY);
+    const handleMouseMove = (e) => handleMove(e.clientX, e.clientY);
+    const handleMouseUp = handleEnd;
+
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches[0]) {
+        handleStart(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+    const handleTouchMove = (e) => {
+      if (e.touches && e.touches[0]) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+    const handleTouchEnd = handleEnd;
 
     container.addEventListener('mousedown', handleMouseDown);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd);
 
     let animId;
     const animate = () => {
@@ -128,6 +147,9 @@ export default function WebGlPage() {
       container.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+      container.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       window.removeEventListener('resize', handleResize);
       renderer.dispose();
       geom.dispose();
@@ -250,7 +272,7 @@ scene.add(mesh);`;
               </p>
             </div>
 
-            <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'torus', label: 'Torus Knot' },
                 { id: 'icosahedron', label: 'Icosahedron' },
@@ -274,7 +296,7 @@ scene.add(mesh);`;
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
             {/* Live Three.js Canvas Container */}
-            <div className="lg:col-span-8 relative h-80 sm:h-96 rounded-2xl border-2 border-white/15 bg-black/80 overflow-hidden shadow-2xl flex items-center justify-center cursor-grab active:cursor-grabbing">
+            <div className="lg:col-span-8 relative h-72 sm:h-96 rounded-2xl border-2 border-white/15 bg-black/80 overflow-hidden shadow-2xl flex items-center justify-center cursor-grab active:cursor-grabbing touch-none select-none">
               <div ref={canvasContainerRef} className="w-full h-full" />
               
               <div className="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-black/60 border border-white/10 text-[10px] font-mono text-slate-300 flex items-center space-x-2">
@@ -282,8 +304,8 @@ scene.add(mesh);`;
                 <span>WEBGL2 ACCELERATED • 60 FPS</span>
               </div>
 
-              <div className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-400 bg-black/60 px-2 py-0.5 rounded border border-white/10">
-                Drag to Rotate 3D Mesh
+              <div className="absolute bottom-3 right-3 text-[10px] font-mono text-slate-300 bg-black/75 backdrop-blur-xs px-2.5 py-1 rounded-lg border border-white/10">
+                Touch or Drag to Rotate 3D Mesh
               </div>
             </div>
 

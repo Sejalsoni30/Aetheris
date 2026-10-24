@@ -111,31 +111,31 @@ export default function SimulatorPage() {
           </div>
 
           {/* Interactive Simulation Display */}
-          <div className="lg:col-span-7 p-8 rounded-3xl bg-slate-900/90 border border-cyan-500/40 relative min-h-[380px] flex flex-col justify-between overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between z-10">
-              <span className="text-xs font-mono text-cyan-300 font-bold">
+          <div className="lg:col-span-7 p-5 sm:p-8 rounded-3xl bg-slate-900/90 border border-cyan-500/40 relative min-h-[340px] sm:min-h-[380px] flex flex-col justify-between overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between z-10 text-[11px] sm:text-xs">
+              <span className="font-mono text-cyan-300 font-bold truncate pr-2">
                 ACTIVE FRUSTUM: {fov}° // {depth}m DEPTH
               </span>
-              <span className="text-xs font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold">
-                ONLINE 120HZ
+              <span className="font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold shrink-0">
+                120HZ
               </span>
             </div>
 
             {/* Interactive Target Nodes in 3D Space */}
-            <div className="relative h-64 flex items-center justify-around z-10">
+            <div className="relative h-60 sm:h-64 flex items-center justify-around z-10 gap-2">
               {[1, 2, 3].map((node) => (
                 <button
                   key={node}
                   onClick={() => simulateTargetHit(node)}
-                  className={`group relative p-6 rounded-2xl border transition-all duration-300 cursor-pointer shadow-lg ${
+                  className={`group relative p-3 sm:p-6 rounded-2xl border transition-all duration-300 cursor-pointer shadow-lg active:scale-95 ${
                     activeTarget === node
-                      ? 'bg-cyan-950/90 border-cyan-400 scale-110 shadow-[0_0_30px_rgba(6,182,212,0.4)]'
+                      ? 'bg-cyan-950/90 border-cyan-400 scale-105 sm:scale-110 shadow-[0_0_30px_rgba(6,182,212,0.4)]'
                       : 'bg-white/10 border-white/20 hover:border-white/40'
                   }`}
                 >
-                  <Target className={`w-8 h-8 ${activeTarget === node ? 'text-cyan-300 animate-pulse' : 'text-slate-300'}`} />
-                  <div className="text-xs font-mono font-bold mt-2 text-white">ANCHOR {node}</div>
-                  <div className="text-[10px] font-mono text-cyan-300 font-semibold">{(depth * 0.3 * node).toFixed(1)}m DIST</div>
+                  <Target className={`w-6 h-6 sm:w-8 sm:h-8 mx-auto ${activeTarget === node ? 'text-cyan-300 animate-pulse' : 'text-slate-300'}`} />
+                  <div className="text-[11px] sm:text-xs font-mono font-bold mt-1.5 text-white">ANCHOR {node}</div>
+                  <div className="text-[9px] sm:text-[10px] font-mono text-cyan-300 font-semibold">{(depth * 0.3 * node).toFixed(1)}m DIST</div>
                 </button>
               ))}
             </div>

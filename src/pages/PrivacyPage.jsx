@@ -54,11 +54,21 @@ export default function PrivacyPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleSimMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+  const handleSimPointer = (clientX, clientY, currentTarget) => {
+    const rect = currentTarget.getBoundingClientRect();
+    const x = Math.round(((clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((clientY - rect.top) / rect.height) * 100);
     setMousePos({ x, y });
+  };
+
+  const handleSimMouseMove = (e) => {
+    handleSimPointer(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handleSimTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      handleSimPointer(e.touches[0].clientX, e.touches[0].clientY, e.currentTarget);
+    }
   };
 
   const toggleCompliance = (key) => {
@@ -192,6 +202,8 @@ export default function PrivacyPage() {
             {/* Left: Interactive Sensor Canvas */}
             <div 
               onMouseMove={handleSimMouseMove}
+              onTouchMove={handleSimTouchMove}
+              onTouchStart={handleSimTouchMove}
               className="lg:col-span-7 relative h-72 sm:h-80 rounded-2xl border border-white/15 bg-slate-950 overflow-hidden cursor-crosshair group flex items-center justify-center select-none shadow-inner"
             >
               <div className="absolute inset-0 bg-grid-cyber opacity-30" />

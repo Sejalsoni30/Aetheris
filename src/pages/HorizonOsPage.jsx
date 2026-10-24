@@ -82,12 +82,22 @@ aetherisTracker.onIntentDetected((intent) => {
 });`
   };
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+  const handlePointer = (clientX, clientY, currentTarget) => {
+    const rect = currentTarget.getBoundingClientRect();
+    const x = Math.round(((clientX - rect.left) / rect.width) * 100);
+    const y = Math.round(((clientY - rect.top) / rect.height) * 100);
     setMousePos({ x, y });
     setHandConfidence(Number((97 + Math.random() * 2.8).toFixed(1)));
+  };
+
+  const handleMouseMove = (e) => {
+    handlePointer(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      handlePointer(e.touches[0].clientX, e.touches[0].clientY, e.currentTarget);
+    }
   };
 
   const copyCode = () => {
@@ -185,7 +195,7 @@ aetherisTracker.onIntentDetected((intent) => {
               </p>
             </div>
 
-            <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'pinch', label: 'Index Pinch' },
                 { id: 'raycast', label: 'Palm Raycast' },
@@ -209,7 +219,9 @@ aetherisTracker.onIntentDetected((intent) => {
           {/* Interactive Quest Viewport */}
           <div 
             onMouseMove={handleMouseMove}
-            className="relative h-80 sm:h-96 rounded-2xl border-2 border-blue-500/30 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden select-none cursor-crosshair flex items-center justify-center group shadow-2xl"
+            onTouchMove={handleTouchMove}
+            onTouchStart={handleTouchMove}
+            className="relative h-72 sm:h-96 rounded-2xl border-2 border-blue-500/30 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden select-none cursor-crosshair flex items-center justify-center group shadow-2xl"
           >
             <div className="absolute inset-0 bg-grid-cyber opacity-30" />
 

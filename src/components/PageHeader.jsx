@@ -304,12 +304,12 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
             {/* Audio Toggle */}
             <button
               onClick={toggleAudio}
-              className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer shrink-0 ${
+              aria-label={audioEnabled ? 'Mute Spatial Audio Synth' : 'Enable Spatial Audio Synth'}
+              className={`w-10 h-10 rounded-xl border transition-all duration-200 cursor-pointer shrink-0 flex items-center justify-center active:scale-95 ${
                 audioEnabled 
                   ? 'bg-cyan-500/10 border-cyan-500/40 text-cyan-300 shadow-[0_0_12px_rgba(0,242,254,0.3)]' 
                   : 'bg-white/[0.03] border-white/10 text-slate-400 hover:text-white hover:bg-white/[0.06]'
               }`}
-              title={audioEnabled ? 'Mute Spatial Audio Synth' : 'Enable Spatial Audio Synth'}
             >
               {audioEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
             </button>
@@ -333,14 +333,14 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
               </span>
             </button>
 
-            {/* Mobile Menu Hamburger */}
+            {/* Mobile Menu Hamburger with 44px min touch target */}
             <button
               onClick={() => {
                 sound.playClick();
                 setMobileMenuOpen(!mobileMenuOpen);
               }}
-              className="p-2 rounded-xl bg-white/[0.05] border border-white/10 text-white md:hidden cursor-pointer hover:bg-white/10 transition-colors shrink-0"
-              title="Toggle Navigation Menu"
+              aria-label="Toggle Navigation Menu"
+              className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/10 text-white md:hidden cursor-pointer active:scale-95 hover:bg-white/10 transition-all flex items-center justify-center shrink-0"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -609,8 +609,8 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
           </div>
 
           {/* Directory Sections on Mobile */}
-          <div className="space-y-3 pt-2 border-t border-white/10 max-h-[50vh] overflow-y-auto pr-1">
-            <div className="text-[11px] font-mono text-slate-400 uppercase tracking-widest">
+          <div className="space-y-3 pt-2 border-t border-white/10 max-h-[60vh] overflow-y-auto touch-momentum pr-1">
+            <div className="text-[11px] font-mono text-slate-400 uppercase tracking-widest font-semibold px-1">
               Directory Navigation
             </div>
             
@@ -670,6 +670,39 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Social Links Bar */}
+          <div className="pt-3 border-t border-white/10 flex items-center justify-around text-xs font-mono text-slate-300">
+            <a 
+              href="https://www.linkedin.com/in/sejal-soni-361897303/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
+              className="py-1 px-2 rounded-lg hover:text-cyan-300 transition-colors"
+            >
+              LinkedIn
+            </a>
+            <span className="text-slate-600">•</span>
+            <a 
+              href="https://github.com/Sejalsoni30" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
+              className="py-1 px-2 rounded-lg hover:text-cyan-300 transition-colors"
+            >
+              GitHub
+            </a>
+            <span className="text-slate-600">•</span>
+            <a 
+              href="https://x.com/Sejalsoni02" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={() => sound.playClick()}
+              className="py-1 px-2 rounded-lg hover:text-cyan-300 transition-colors"
+            >
+              X (Twitter)
+            </a>
           </div>
 
         </div>

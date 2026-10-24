@@ -135,13 +135,13 @@ export default function TelemetryDashboard() {
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
           
           {/* Inject Event Button */}
           <button
             onClick={handleInjectEvent}
             onMouseEnter={() => sound.playHover()}
-            className="px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-cyan-500/10 border border-cyan-400/40 text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center space-x-1.5 cursor-pointer"
+            className="px-3.5 py-2 rounded-xl text-xs font-mono font-medium bg-cyan-500/10 border border-cyan-400/40 text-cyan-300 hover:bg-cyan-500/20 active:scale-95 transition-all flex items-center space-x-1.5 cursor-pointer"
           >
             <PlusCircle className="w-3.5 h-3.5 text-cyan-400" />
             <span>Inject Telemetry Event</span>
@@ -158,7 +158,7 @@ export default function TelemetryDashboard() {
                     sound.playClick();
                     setTimeframe(tf);
                   }}
-                  className={`px-3 sm:px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
+                  className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
                     isActive 
                       ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 text-cyan-200 shadow-md' 
                       : 'text-slate-400 hover:text-white'
@@ -305,19 +305,19 @@ export default function TelemetryDashboard() {
           {liveEvents.map((evt) => (
             <div 
               key={evt.id}
-              className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-3 hover:bg-white/[0.02] px-2 rounded-xl transition-colors"
+              className="py-3 px-2 flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-2 hover:bg-white/[0.03] rounded-xl transition-colors"
             >
-              <div className="flex items-center space-x-3">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
+              <div className="flex items-center space-x-2.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping shrink-0" />
                 <span className="font-bold text-white">{evt.city}</span>
-                <span className="text-slate-500">{evt.node}</span>
+                <span className="text-slate-500 text-[11px]">{evt.node}</span>
               </div>
 
-              <div className="text-slate-300">
+              <div className="text-slate-300 text-[11px] sm:text-xs">
                 {evt.type}
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-between sm:justify-start space-x-3 text-[11px] sm:text-xs pt-1 sm:pt-0 border-t sm:border-t-0 border-white/5">
                 <span className="font-semibold text-emerald-400">{evt.val}</span>
                 <span className="text-slate-500">Latency: <span className="text-cyan-300">{evt.latency}</span></span>
                 <span className="text-slate-600 hidden md:inline">{evt.time}</span>

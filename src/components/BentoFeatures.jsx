@@ -145,12 +145,12 @@ export default function BentoFeatures() {
             </p>
 
             {/* Interactive Waveform / Intent Radar Widget */}
-            <div className="rounded-2xl bg-slate-950/70 border border-white/10 p-5 backdrop-blur-md">
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+            <div className="rounded-2xl bg-slate-950/70 border border-white/10 p-4 sm:p-5 backdrop-blur-md">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                 <div className="text-xs font-mono text-slate-400">
-                  SIGNAL DISCOVERY ENGINE: <span className="text-cyan-400 font-bold">{activeSignal}</span>
+                  SIGNAL DISCOVERY ENGINE: <span className="text-cyan-400 font-bold block sm:inline">{activeSignal}</span>
                 </div>
-                <div className="flex items-center space-x-2 text-xs font-mono">
+                <div className="flex items-center space-x-2 text-xs font-mono self-start sm:self-auto">
                   <span className="text-slate-500">Sensitivity:</span>
                   <span className="text-white font-bold">{intentSensitivity}%</span>
                   <input 
@@ -311,8 +311,8 @@ export default function BentoFeatures() {
             </p>
 
             {/* Interactive Node Flow */}
-            <div className="p-4 rounded-2xl bg-slate-950/70 border border-white/10 space-y-3">
-              <div className="grid grid-cols-5 gap-2">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-slate-950/70 border border-white/10 space-y-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
                 {nodes.map((n) => {
                   const isSelected = activeNode === n.id;
                   return (
@@ -341,14 +341,14 @@ export default function BentoFeatures() {
               </div>
 
               {/* Node Inspector Display */}
-              <div className="mt-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between">
+              <div className="mt-3 p-3.5 rounded-xl bg-white/[0.03] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                 <div>
                   <div className="text-xs font-mono text-slate-400">SELECTED PIPELINE STAGE:</div>
                   <div className="text-sm font-bold text-white mt-0.5">
                     {nodes[activeNode].title} — <span className="text-slate-400 font-normal">{nodes[activeNode].desc}</span>
                   </div>
                 </div>
-                <div className="px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs font-mono text-amber-300 font-bold">
+                <div className="self-start sm:self-auto px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/20 text-xs font-mono text-amber-300 font-bold shrink-0">
                   {nodes[activeNode].status}
                 </div>
               </div>

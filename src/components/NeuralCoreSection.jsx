@@ -10,18 +10,28 @@ export default function NeuralCoreSection() {
   const [activePreset, setActivePreset] = useState('High Density');
   const containerRef = useRef(null);
 
-  const handleMouseMove = (e) => {
+  const handlePointerCoord = (clientX, clientY) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    const x = ((clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -(((clientY - rect.top) / rect.height) * 2 - 1);
     const z = Number((12.4 + Math.sin(x * 3) * 2.2).toFixed(2));
 
     setCoords({
-      x: Number(x.toFixed(3)),
-      y: Number(y.toFixed(3)),
+      x: Number(Math.max(-1, Math.min(1, x)).toFixed(3)),
+      y: Number(Math.max(-1, Math.min(1, y)).toFixed(3)),
       z
     });
+  };
+
+  const handleMouseMove = (e) => {
+    handlePointerCoord(e.clientX, e.clientY);
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches && e.touches[0]) {
+      handlePointerCoord(e.touches[0].clientX, e.touches[0].clientY);
+    }
   };
 
   const clusters = [
@@ -35,7 +45,9 @@ export default function NeuralCoreSection() {
       id="neural-core" 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative py-28 px-4 sm:px-6 lg:px-8 z-10 max-w-7xl mx-auto"
+      onTouchMove={handleTouchMove}
+      onTouchStart={handleTouchMove}
+      className="relative py-20 sm:py-28 px-4 sm:px-6 lg:px-8 z-10 max-w-7xl mx-auto"
     >
       <div className="glass-panel-elevated rounded-3xl p-6 sm:p-10 lg:p-12 border border-white/10 relative overflow-hidden">
         
@@ -111,14 +123,14 @@ export default function NeuralCoreSection() {
                         sound.playClick();
                         setActiveCluster(c.name);
                       }}
-                      className={`w-full p-3 rounded-xl border text-left text-xs transition-all flex items-center justify-between cursor-pointer ${
+                      className={`w-full p-3 rounded-xl border text-left text-xs transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 cursor-pointer ${
                         isCurrent 
                           ? 'bg-cyan-500/10 border-cyan-400/40 text-white' 
                           : 'bg-white/[0.02] border-white/5 text-slate-400 hover:border-white/20 hover:text-slate-200'
                       }`}
                     >
                       <span className="font-medium">{c.name}</span>
-                      <div className="flex items-center space-x-3 font-mono">
+                      <div className="flex items-center space-x-3 font-mono self-start sm:self-auto text-[11px]">
                         <span className="text-emerald-400 font-bold">{c.score}</span>
                         <span className="text-slate-500">{c.volume}</span>
                       </div>

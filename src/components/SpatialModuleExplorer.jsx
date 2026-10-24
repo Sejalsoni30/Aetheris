@@ -115,7 +115,7 @@ export default function SpatialModuleExplorer({ currentPath }) {
   const sisterModules = ALL_MODULES.filter(m => m.path !== path).slice(0, 3);
 
   return (
-    <section className="relative rounded-3xl border border-white/15 bg-gradient-to-b from-slate-900/90 via-slate-950 to-black p-8 sm:p-12 overflow-hidden shadow-2xl space-y-8">
+    <section className="relative rounded-3xl border border-white/15 bg-gradient-to-b from-slate-900/90 via-slate-950 to-black p-5 sm:p-8 lg:p-12 overflow-hidden shadow-2xl space-y-6 sm:space-y-8">
       {/* Ambient background glow */}
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px] pointer-events-none" />
@@ -138,7 +138,7 @@ export default function SpatialModuleExplorer({ currentPath }) {
           to="/"
           onClick={() => sound.playClick()}
           onMouseEnter={() => sound.playHover()}
-          className="px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center space-x-2 shrink-0 cursor-pointer"
+          className="px-4 py-2.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/15 text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center space-x-2 shrink-0 cursor-pointer min-h-[44px] active:scale-95 touch-manipulation"
         >
           <span>Main Engine</span>
           <ArrowRight className="w-3.5 h-3.5 text-cyan-400" />
@@ -146,7 +146,7 @@ export default function SpatialModuleExplorer({ currentPath }) {
       </div>
 
       {/* 3 Sister Module Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 relative z-10">
         {sisterModules.map(mod => {
           const ModIcon = mod.icon;
           return (
@@ -155,7 +155,7 @@ export default function SpatialModuleExplorer({ currentPath }) {
               to={mod.path}
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className={`p-6 rounded-3xl bg-slate-900/80 border border-white/10 transition-all duration-300 flex flex-col justify-between space-y-4 group cursor-pointer hover:-translate-y-1 ${mod.border}`}
+              className={`p-5 sm:p-6 rounded-3xl bg-slate-900/80 border border-white/10 transition-all duration-300 flex flex-col justify-between space-y-4 group cursor-pointer hover:-translate-y-1 ${mod.border}`}
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">

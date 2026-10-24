@@ -261,19 +261,19 @@ export default function CommunityPage({ initialChannel = 'discord' }) {
 
         {/* ================= INTERACTIVE SECTION: Interactive Developer Console ================= */}
         <div className="rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-8 shadow-2xl space-y-6">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/10 pb-4">
             <div className="flex items-center space-x-2.5">
               <Terminal className="w-4 h-4 text-cyan-400" />
               <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
                 Aetheris Interactive Guild Terminal
               </span>
             </div>
-            <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-400">
+            <div className="flex flex-wrap items-center gap-1.5 text-[10px] font-mono text-slate-400">
               <span>Try typing:</span>
-              <span className="text-blue-300 bg-white/5 px-1.5 py-0.5 rounded cursor-pointer" onClick={() => setCliInput('linkedin')}>linkedin</span>
-              <span className="text-slate-300 bg-white/5 px-1.5 py-0.5 rounded cursor-pointer" onClick={() => setCliInput('github')}>github</span>
-              <span className="text-cyan-300 bg-white/5 px-1.5 py-0.5 rounded cursor-pointer" onClick={() => setCliInput('x')}>x</span>
-              <span className="text-purple-300 bg-white/5 px-1.5 py-0.5 rounded cursor-pointer" onClick={() => setCliInput('bounties')}>bounties</span>
+              <span className="text-blue-300 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded cursor-pointer transition-colors" onClick={() => setCliInput('linkedin')}>linkedin</span>
+              <span className="text-slate-300 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded cursor-pointer transition-colors" onClick={() => setCliInput('github')}>github</span>
+              <span className="text-cyan-300 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded cursor-pointer transition-colors" onClick={() => setCliInput('x')}>x</span>
+              <span className="text-purple-300 bg-white/5 hover:bg-white/10 px-2 py-0.5 rounded cursor-pointer transition-colors" onClick={() => setCliInput('bounties')}>bounties</span>
             </div>
           </div>
 

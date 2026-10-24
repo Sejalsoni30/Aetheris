@@ -87,7 +87,7 @@ export default function SecurityPage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
         {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-purple-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-purple-950/40 backdrop-blur-2xl p-6 sm:p-12 lg:p-16 shadow-2xl">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 max-w-4xl space-y-6">
@@ -96,19 +96,19 @@ export default function SecurityPage() {
               <span>ENTERPRISE GRADE SPATIAL SECURITY • POST-QUANTUM DEFENSE</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight break-words">
               Spatial Security & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-indigo-300 to-cyan-300">
                 Quantum-Resistant Telemetry
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
+            <p className="text-slate-200 text-sm sm:text-lg leading-relaxed font-normal max-w-2xl">
               Securing next-generation spatial computing ecosystems. Multi-tenant GPU enclave isolation, post-quantum cryptography, and round-the-clock automated penetration monitoring.
             </p>
 
             {/* Live High-Tech HUD Metrics Ticker */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 pt-4">
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Cryptographic Cipher</div>
                 <div className="text-sm font-mono font-bold text-purple-300">Kyber-1024 PQC</div>
@@ -134,7 +134,7 @@ export default function SecurityPage() {
                   sound.playClick();
                   document.getElementById('security-sandbox')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2 min-h-[44px] active:scale-95 touch-manipulation"
               >
                 <Zap className="w-3.5 h-3.5" />
                 <span>Simulate Threat Vectors</span>
@@ -142,7 +142,7 @@ export default function SecurityPage() {
               
               <button
                 onClick={pingNode}
-                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+                className="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2 min-h-[44px] active:scale-95 touch-manipulation"
               >
                 <Server className="w-3.5 h-3.5 text-cyan-400" />
                 <span>Inspect Active Enclave Nodes</span>
@@ -152,7 +152,7 @@ export default function SecurityPage() {
         </div>
 
         {/* ================= INTERACTIVE SECTION: Threat Defense Simulator ================= */}
-        <div id="security-sandbox" className="rounded-3xl border border-purple-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="security-sandbox" className="rounded-3xl border border-purple-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-5 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -272,7 +272,7 @@ export default function SecurityPage() {
 
         {/* Security Matrix Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-purple-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-purple-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -282,7 +282,7 @@ export default function SecurityPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-indigo-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-indigo-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 group-hover:scale-110 transition-transform">
               <Key className="w-6 h-6" />
             </div>
@@ -292,7 +292,7 @@ export default function SecurityPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-cyan-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-cyan-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform">
               <Cpu className="w-6 h-6" />
             </div>

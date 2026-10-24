@@ -3,17 +3,11 @@ import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
 import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
-  FileText, 
   CheckCircle2, 
   ShieldCheck, 
   Scale, 
-  AlertCircle, 
   Calculator, 
-  Coins, 
-  TrendingUp, 
-  Sparkles,
-  Zap,
-  ArrowRight
+  Zap 
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
@@ -44,7 +38,7 @@ export default function TermsPage() {
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
         {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-amber-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-amber-950/40 backdrop-blur-2xl p-6 sm:p-12 lg:p-16 shadow-2xl">
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/20 rounded-full blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 max-w-4xl space-y-6">
@@ -53,19 +47,19 @@ export default function TermsPage() {
               <span>SPATIAL COMPUTE SERVICE LEVEL AGREEMENT • v4.2 PROD</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black font-display tracking-tight text-white leading-tight break-words">
               Terms of Compute & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-200">
                 Attribution Protocol
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
+            <p className="text-slate-200 text-sm sm:text-lg leading-relaxed font-normal max-w-2xl">
               Governing decentralized volumetric ray-casting, tensor inference capacity, compute credit allocations, and developer royalty distribution across the global Aetheris spatial network.
             </p>
 
             {/* Live High-Tech HUD Metrics Ticker */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3 pt-4">
               <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Guaranteed Uptime</div>
                 <div className="text-sm font-mono font-bold text-amber-300">99.99% Edge SLA</div>
@@ -91,7 +85,7 @@ export default function TermsPage() {
                   sound.playClick();
                   document.getElementById('sla-calculator')?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2 min-h-[44px] active:scale-95 touch-manipulation"
               >
                 <Calculator className="w-3.5 h-3.5" />
                 <span>Launch SLA Calculator</span>
@@ -99,7 +93,7 @@ export default function TermsPage() {
               
               <button
                 onClick={triggerBreachSimulation}
-                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+                className="px-5 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2 min-h-[44px] active:scale-95 touch-manipulation"
               >
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
                 <span>Simulate Automated Outage Payout</span>
@@ -109,7 +103,7 @@ export default function TermsPage() {
         </div>
 
         {/* ================= INTERACTIVE SECTION: SLA & Credit Calculator ================= */}
-        <div id="sla-calculator" className="rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="sla-calculator" className="rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-5 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -126,7 +120,7 @@ export default function TermsPage() {
             </div>
 
             {/* SLA Guarantee Tier Selector */}
-            <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'standard', label: '99.9% Std' },
                 { id: 'enterprise', label: '99.99% Ent' },
@@ -135,7 +129,7 @@ export default function TermsPage() {
                 <button
                   key={tier.id}
                   onClick={() => { sound.playClick(); setSlaTier(tier.id); }}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer min-h-[36px] touch-manipulation ${
                     slaTier === tier.id
                       ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold shadow-[0_0_15px_rgba(245,158,11,0.3)]'
                       : 'text-slate-400 hover:text-white'
@@ -237,7 +231,7 @@ export default function TermsPage() {
             </div>
 
             {/* Live Calculation Cards Output */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+            <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               
               <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">SLA Uptime</div>
@@ -279,7 +273,7 @@ export default function TermsPage() {
 
         {/* SLA & Terms Points */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform">
               <CheckCircle2 className="w-6 h-6" />
             </div>
@@ -289,7 +283,7 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -299,7 +293,7 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
+          <div className="p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 transition-transform">
               <Scale className="w-6 h-6" />
             </div>

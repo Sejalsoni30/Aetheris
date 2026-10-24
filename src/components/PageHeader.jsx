@@ -24,7 +24,8 @@ import {
   MessageSquare, 
   Compass, 
   Activity, 
-  Scale
+  Scale,
+  ExternalLink
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
@@ -69,8 +70,9 @@ const NAVIGATION_SECTIONS = [
     accentBorder: 'hover:border-emerald-500/50 hover:bg-emerald-500/5',
     badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
     pages: [
-      { name: 'GitHub Protocol', path: '/community/github', desc: 'Open source SDKs, shaders & repo tools', icon: Terminal },
-      { name: 'Spatial X Network', path: '/community/network', desc: 'Global community dispatch & broadcasts', icon: Share2 },
+      { name: 'LinkedIn (Sejal Soni)', path: 'https://www.linkedin.com/in/sejal-soni-361897303/', desc: 'Connect with lead architect', icon: Share2, isExternal: true },
+      { name: 'GitHub Profile', path: 'https://github.com/Sejalsoni30', desc: 'Open source SDKs & repositories', icon: Terminal, isExternal: true },
+      { name: 'Spatial X Network', path: 'https://x.com/Sejalsoni02', desc: 'Global community dispatch & broadcasts', icon: Globe, isExternal: true },
       { name: 'Developer Discord', path: '/community/discord', desc: 'Real-time engineer guild & support', icon: MessageSquare },
     ]
   },
@@ -263,7 +265,7 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                   ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/60 shadow-[0_0_20px_rgba(0,242,254,0.35)] scale-105'
                   : 'bg-white/[0.04] text-slate-200 border-white/15 hover:text-white hover:border-cyan-400/40 hover:bg-white/[0.08] hover:shadow-[0_0_15px_rgba(0,242,254,0.15)]'
               }`}
-              title="Open System Directory (12 Pages & Specifications)"
+              title="Open System Directory (15 Pages & Specifications)"
             >
               <div className={`p-1 rounded-full ${isDirectoryOpen ? 'bg-cyan-500/20' : 'bg-white/5 group-hover:bg-cyan-500/10'} transition-colors`}>
                 <Compass className={`w-3.5 h-3.5 text-cyan-400 ${isDirectoryOpen ? 'rotate-90 text-cyan-300' : 'group-hover:rotate-45'} transition-transform duration-500`} />
@@ -278,7 +280,7 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                   ? 'bg-cyan-400/20 text-cyan-300 border-cyan-400/40 font-bold'
                   : 'bg-white/5 text-slate-400 border-white/10 group-hover:border-cyan-400/30 group-hover:text-cyan-300'
               }`}>
-                12
+                15
               </span>
 
               <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${isDirectoryOpen ? 'rotate-180 text-cyan-300' : 'text-slate-400 group-hover:text-slate-200'}`} />
@@ -414,6 +416,37 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                           const isActive = location.pathname === page.path;
                           const PageIcon = page.icon;
 
+                          if (page.isExternal) {
+                            return (
+                              <a
+                                key={page.name}
+                                href={page.path}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={() => {
+                                  sound.playClick();
+                                  setIsDirectoryOpen(false);
+                                }}
+                                onMouseEnter={() => sound.playHover()}
+                                className={`block p-2.5 rounded-xl border transition-all duration-200 group bg-white/[0.02] border-white/[0.06] ${sec.accentBorder}`}
+                                title={`Open ${page.name} in new tab`}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className="flex items-center space-x-2">
+                                    <PageIcon className="w-3.5 h-3.5 text-slate-400 group-hover:text-cyan-300 transition-colors" />
+                                    <span className="text-xs font-medium text-slate-200 group-hover:text-white">
+                                      {page.name}
+                                    </span>
+                                  </div>
+                                  <ExternalLink className="w-3 h-3 text-slate-500 group-hover:text-cyan-400 transition-colors" />
+                                </div>
+                                <p className="text-[11px] text-slate-400 line-clamp-1 mt-1 font-light group-hover:text-slate-300">
+                                  {page.desc}
+                                </p>
+                              </a>
+                            );
+                          }
+
                           return (
                             <Link
                               key={page.path}
@@ -425,7 +458,7 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                               onMouseEnter={() => sound.playHover()}
                               className={`block p-2.5 rounded-xl border transition-all duration-200 group ${
                                 isActive 
-                                  ? 'bg-white/10 border-cyan-400/50 shadow-[0_0_15px_rgba(0,242,254,0.2)]'
+                                  ? 'bg-white/10 border-cyan-400/50 shadow-[0_0_15px_rgba(0,242,254,0.2)]' 
                                   : `bg-white/[0.02] border-white/[0.06] ${sec.accentBorder}`
                               }`}
                             >
@@ -590,6 +623,28 @@ export default function PageHeader({ section = 'Architecture', title = 'Page' })
                 <div className="grid grid-cols-1 gap-1">
                   {sec.pages.map(page => {
                     const isActive = location.pathname === page.path;
+                    if (page.isExternal) {
+                      return (
+                        <a
+                          key={page.name}
+                          href={page.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => {
+                            sound.playClick();
+                            setMobileMenuOpen(false);
+                          }}
+                          className="px-3 py-2 rounded-lg text-xs font-mono flex items-center justify-between bg-white/[0.02] text-slate-300 hover:bg-white/5 border border-white/5"
+                        >
+                          <span className="flex items-center space-x-2">
+                            <page.icon className="w-3.5 h-3.5" />
+                            <span>{page.name}</span>
+                          </span>
+                          <ExternalLink className="w-3 h-3 text-slate-500" />
+                        </a>
+                      );
+                    }
+
                     return (
                       <Link
                         key={page.path}

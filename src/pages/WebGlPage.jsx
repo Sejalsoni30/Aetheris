@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   Layers, 
   Cpu, 
@@ -13,7 +14,8 @@ import {
   Sliders, 
   RotateCw, 
   Maximize2,
-  Activity
+  Activity,
+  ArrowRight
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
@@ -21,9 +23,8 @@ export default function WebGlPage() {
   const [copied, setCopied] = useState(false);
   const canvasContainerRef = useRef(null);
 
-  // Interactive 3D Shader Controls
-  const [geometryType, setGeometryType] = useState('torus'); // 'torus' | 'icosahedron' | 'sphere'
-  const [colorTheme, setColorTheme] = useState('cyan'); // 'cyan' | 'purple' | 'gold' | 'emerald'
+  const [geometryType, setGeometryType] = useState('torus');
+  const [colorTheme, setColorTheme] = useState('cyan');
   const [particleDensity, setParticleDensity] = useState(1800);
   const [rotationSpeed, setRotationSpeed] = useState(1.0);
   const [wireframeMode, setWireframeMode] = useState(true);
@@ -35,7 +36,6 @@ export default function WebGlPage() {
     emerald: 0x10b981
   };
 
-  // Three.js Interactive Scene instantiation
   useEffect(() => {
     const container = canvasContainerRef.current;
     if (!container) return;
@@ -53,7 +53,6 @@ export default function WebGlPage() {
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
-    // Create Geometry
     let geom;
     if (geometryType === 'torus') {
       geom = new THREE.TorusKnotGeometry(1.2, 0.35, 128, 32);
@@ -63,7 +62,6 @@ export default function WebGlPage() {
       geom = new THREE.SphereGeometry(1.5, 32, 32);
     }
 
-    // Material
     const material = new THREE.MeshStandardMaterial({
       color: THEME_HEX[colorTheme],
       wireframe: wireframeMode,
@@ -76,7 +74,6 @@ export default function WebGlPage() {
     const mesh = new THREE.Mesh(geom, material);
     scene.add(mesh);
 
-    // Lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
@@ -171,29 +168,73 @@ scene.add(mesh);`;
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-cyan-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              <span>HIGH PERFORMANCE WEBGL2 & THREE.JS</span>
+        {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-cyan-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-cyan-500/20 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-cyan-500/15 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold shadow-[0_0_15px_rgba(6,182,212,0.25)]">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
+              <span>HIGH PERFORMANCE WEBGL2 & THREE.JS SHADERS</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
               Aetheris for <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-indigo-300">
                 Browser-Native 3D WebGL
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal">
+            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
               High-speed browser-based volumetric ad synthesis. Harness WebGL2, WebGPU compute pipelines, and Three.js shader instancing to render holographic brand experiences at solid 60FPS on any mobile or desktop device.
             </p>
+
+            {/* Live High-Tech HUD Metrics Ticker */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Hardware Engine</div>
+                <div className="text-sm font-mono font-bold text-cyan-300">WebGL2 / WebGPU</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Frame Refresh</div>
+                <div className="text-sm font-mono font-bold text-emerald-300">60 FPS Continuous</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Draw Calls</div>
+                <div className="text-sm font-mono font-bold text-purple-300">1 Instanced Call</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Client Footprint</div>
+                <div className="text-sm font-mono font-bold text-amber-300">&lt; 42KB Zero-Dep</div>
+              </div>
+            </div>
+
+            {/* Quick Hero Actions */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  document.getElementById('webgl-sandbox')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-400 hover:to-teal-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>Manipulate 3D Shader</span>
+              </button>
+              
+              <button
+                onClick={copyCode}
+                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Copy Synced JS Snippet</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* ================= INTERACTIVE SECTION: Live WebGL Shader Sandbox ================= */}
-        <div className="rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="webgl-sandbox" className="rounded-3xl border border-cyan-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -209,7 +250,6 @@ scene.add(mesh);`;
               </p>
             </div>
 
-            {/* Geometry Switcher */}
             <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'torus', label: 'Torus Knot' },
@@ -346,6 +386,9 @@ scene.add(mesh);`;
             <pre className="text-slate-200">{dynamicCode}</pre>
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/platforms/webgl" />
 
       </main>
 

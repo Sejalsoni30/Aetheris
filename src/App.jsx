@@ -6,6 +6,7 @@ import SpatialStudioModal from './components/SpatialStudioModal';
 import InteractiveHeatmapModal from './components/InteractiveHeatmapModal';
 import AgentSwarmModal from './components/AgentSwarmModal';
 import RoiCalculatorModal from './components/RoiCalculatorModal';
+import ThreeHeroScene from './components/ThreeHeroScene';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -111,7 +112,7 @@ function SpatialCursor() {
 
 function MainContent() {
   return (
-    <div className="relative min-h-screen bg-[#030712] text-slate-100 overflow-x-hidden">
+    <div className="relative min-h-screen bg-[#030712] text-slate-100 overflow-x-hidden selection:bg-cyan-500/30">
       
       {/* Automatically Scroll To Top on Route Changes */}
       <ScrollToTop />
@@ -119,38 +120,48 @@ function MainContent() {
       {/* Interactive Custom Cursor */}
       <SpatialCursor />
 
+      {/* Persistent 3D Interactive Spatial Particle Scene across ALL pages */}
+      <ThreeHeroScene />
+
+      {/* Ambient Neon Atmosphere Orbs */}
+      <div className="fixed top-[-10%] left-[20%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[160px] pointer-events-none z-0" />
+      <div className="fixed top-[40%] right-[-10%] w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-10%] left-[10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[160px] pointer-events-none z-0" />
+
       {/* Subtle Noise / Grid Overlay */}
       <div className="fixed inset-0 bg-grid-cyber opacity-15 pointer-events-none z-0" />
 
       {/* Application Routes */}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        
-        {/* Architecture Routes */}
-        <Route path="/architecture/neural-core" element={<NeuralCorePage />} />
-        <Route path="/architecture/features" element={<FeaturesPage />} />
-        <Route path="/architecture/telemetry" element={<TelemetryPage />} />
-        <Route path="/architecture/simulator" element={<SimulatorPage />} />
+      <div className="relative z-10">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          
+          {/* Architecture Routes */}
+          <Route path="/architecture/neural-core" element={<NeuralCorePage />} />
+          <Route path="/architecture/features" element={<FeaturesPage />} />
+          <Route path="/architecture/telemetry" element={<TelemetryPage />} />
+          <Route path="/architecture/simulator" element={<SimulatorPage />} />
 
-        {/* Platform Routes */}
-        <Route path="/platforms/visionos" element={<VisionOsPage />} />
-        <Route path="/platforms/horizon-os" element={<HorizonOsPage />} />
-        <Route path="/platforms/webgl" element={<WebGlPage />} />
-        <Route path="/platforms/webxr" element={<WebXrPage />} />
+          {/* Platform Routes */}
+          <Route path="/platforms/visionos" element={<VisionOsPage />} />
+          <Route path="/platforms/horizon-os" element={<HorizonOsPage />} />
+          <Route path="/platforms/webgl" element={<WebGlPage />} />
+          <Route path="/platforms/webxr" element={<WebXrPage />} />
 
-        {/* Legal & Protocol Routes */}
-        <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="/security" element={<SecurityPage />} />
-        <Route path="/terms" element={<TermsPage />} />
+          {/* Legal & Protocol Routes */}
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/security" element={<SecurityPage />} />
+          <Route path="/terms" element={<TermsPage />} />
 
-        {/* Community & Ecosystem Routes */}
-        <Route path="/community/github" element={<CommunityPage initialChannel="github" />} />
-        <Route path="/community/network" element={<CommunityPage initialChannel="network" />} />
-        <Route path="/community/discord" element={<CommunityPage initialChannel="discord" />} />
+          {/* Community & Ecosystem Routes */}
+          <Route path="/community/github" element={<CommunityPage initialChannel="github" />} />
+          <Route path="/community/network" element={<CommunityPage initialChannel="network" />} />
+          <Route path="/community/discord" element={<CommunityPage initialChannel="discord" />} />
 
-        {/* Catch-all Fallback */}
-        <Route path="*" element={<HomePage />} />
-      </Routes>
+          {/* Catch-all Fallback */}
+          <Route path="*" element={<HomePage />} />
+        </Routes>
+      </div>
 
       {/* Modals Suite for Real-Time Dynamic Exploration */}
       <SpatialSimulatorModal />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { Cpu, Zap, Activity, ShieldCheck, Terminal, Layers, ArrowRight, CheckCircle2, Copy, Check } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
@@ -75,8 +76,12 @@ await core.startAutonomousInference();`;
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
       <PageHeader section="Architecture" title="Neural Core" />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 relative">
         
+        {/* Ambient Hero Glow Halos */}
+        <div className="absolute top-8 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-[140px] pointer-events-none" />
+
         {/* Hero Section */}
         <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-cyan-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
           <div className="max-w-3xl space-y-6">
@@ -188,6 +193,9 @@ await core.startAutonomousInference();`;
             <pre className="text-slate-200">{sampleCode}</pre>
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/architecture/neural-core" />
 
       </main>
 

@@ -11,9 +11,6 @@ import Footer from '../components/Footer';
 export default function HomePage() {
   return (
     <>
-      {/* 3D WebGL Interactive Hero Scene - Exclusively for Home Hero */}
-      <ThreeHeroScene />
-      
       <Navbar />
       <main className="relative z-10 flex flex-col">
         <HeroSection />

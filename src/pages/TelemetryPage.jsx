@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { Activity, Radio, Cpu, Server, Wifi, Play, Pause, RefreshCw, Terminal, CheckCircle2 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
@@ -44,7 +45,11 @@ export default function TelemetryPage() {
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
       <PageHeader section="Architecture" title="Live Telemetry" />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 relative">
+        
+        {/* Ambient Glow Halos */}
+        <div className="absolute top-8 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-emerald-500/15 rounded-full blur-[140px] pointer-events-none" />
         
         {/* Title & Live Status */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-white/10">
@@ -136,6 +141,9 @@ export default function TelemetryPage() {
             ))}
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/architecture/telemetry" />
 
       </main>
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   FileText, 
   CheckCircle2, 
@@ -17,13 +18,11 @@ import {
 import { sound } from '../utils/sound';
 
 export default function TermsPage() {
-  // Calculator State
-  const [impressions, setImpressions] = useState(2500000); // 2.5M
+  const [impressions, setImpressions] = useState(2500000);
   const [nodes, setNodes] = useState(850);
-  const [slaTier, setSlaTier] = useState('enterprise'); // 'standard' | 'enterprise' | 'sovereign'
+  const [slaTier, setSlaTier] = useState('enterprise');
   const [simulatedBreach, setSimulatedBreach] = useState(false);
 
-  // Compute metrics based on sliders
   const slaPercentages = { standard: '99.90%', enterprise: '99.99%', sovereign: '99.999%' };
   const creditMultiplier = { standard: 0.00018, enterprise: 0.00024, sovereign: 0.00032 };
   
@@ -44,29 +43,73 @@ export default function TermsPage() {
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-amber-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold">
-              <Scale className="w-3.5 h-3.5 text-amber-400" />
-              <span>SPATIAL COMPUTE SERVICE LEVEL AGREEMENT</span>
+        {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-amber-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-amber-500/20 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold shadow-[0_0_15px_rgba(245,158,11,0.25)]">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+              <span>SPATIAL COMPUTE SERVICE LEVEL AGREEMENT • v4.2 PROD</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
               Terms of Compute & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-200">
                 Attribution Protocol
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal">
+            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
               Governing decentralized volumetric ray-casting, tensor inference capacity, compute credit allocations, and developer royalty distribution across the global Aetheris spatial network.
             </p>
+
+            {/* Live High-Tech HUD Metrics Ticker */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Guaranteed Uptime</div>
+                <div className="text-sm font-mono font-bold text-amber-300">99.99% Edge SLA</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Royalty Share</div>
+                <div className="text-sm font-mono font-bold text-emerald-300">42% Protocol Pool</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Latency Ceiling</div>
+                <div className="text-sm font-mono font-bold text-cyan-300">&lt; 0.65ms Max</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Dispute Resolution</div>
+                <div className="text-sm font-mono font-bold text-purple-300">Automated Smart Contract</div>
+              </div>
+            </div>
+
+            {/* Quick Hero Actions */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  document.getElementById('sla-calculator')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Calculator className="w-3.5 h-3.5" />
+                <span>Launch SLA Calculator</span>
+              </button>
+              
+              <button
+                onClick={triggerBreachSimulation}
+                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-400" />
+                <span>Simulate Automated Outage Payout</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* ================= INTERACTIVE SECTION: SLA & Credit Calculator ================= */}
-        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="sla-calculator" className="rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -196,7 +239,7 @@ export default function TermsPage() {
             {/* Live Calculation Cards Output */}
             <div className="lg:col-span-5 grid grid-cols-2 gap-4">
               
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+              <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">SLA Uptime</div>
                 <div className="text-xl sm:text-2xl font-bold font-mono text-amber-300">
                   {slaPercentages[slaTier]}
@@ -204,7 +247,7 @@ export default function TermsPage() {
                 <div className="text-[10px] text-slate-400">Multi-region failover</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+              <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Max Latency</div>
                 <div className="text-xl sm:text-2xl font-bold font-mono text-cyan-300">
                   {latencyGuarantee}
@@ -212,7 +255,7 @@ export default function TermsPage() {
                 <div className="text-[10px] text-slate-400">Guaranteed edge ceiling</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+              <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Developer Royalty</div>
                 <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">
                   {developerRoyalty}
@@ -220,7 +263,7 @@ export default function TermsPage() {
                 <div className="text-[10px] text-slate-400">42% Protocol Pool Share</div>
               </div>
 
-              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+              <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 uppercase">Compute Credits</div>
                 <div className="text-xl sm:text-2xl font-bold font-mono text-purple-300">
                   {estimatedCredits.toLocaleString()}
@@ -236,7 +279,7 @@ export default function TermsPage() {
 
         {/* SLA & Terms Points */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform">
               <CheckCircle2 className="w-6 h-6" />
             </div>
@@ -246,7 +289,7 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -256,7 +299,7 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 transition-transform">
               <Scale className="w-6 h-6" />
             </div>
@@ -266,6 +309,9 @@ export default function TermsPage() {
             </p>
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/terms" />
 
       </main>
 

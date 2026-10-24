@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   Box, 
   ShieldCheck, 
@@ -14,14 +15,15 @@ import {
   Activity, 
   RotateCw, 
   Radio,
-  Zap
+  Zap,
+  ArrowRight
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
 export default function HorizonOsPage() {
   const [copied, setCopied] = useState(false);
-  const [activeEngineTab, setActiveEngineTab] = useState('unity'); // 'unity' | 'unreal' | 'webxr'
-  const [activeGesture, setActiveGesture] = useState('pinch'); // 'pinch' | 'raycast' | 'skeletal'
+  const [activeEngineTab, setActiveEngineTab] = useState('unity');
+  const [activeGesture, setActiveGesture] = useState('pinch');
   const [handConfidence, setHandConfidence] = useState(99.4);
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
 
@@ -101,29 +103,73 @@ aetherisTracker.onIntentDetected((intent) => {
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-blue-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-500/40 text-blue-300 text-xs font-mono font-bold">
-              <Box className="w-3.5 h-3.5 text-blue-400" />
-              <span>HORIZON OS RUNTIME & OPENXR</span>
+        {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-blue-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-blue-500/20 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-500/15 border border-blue-500/40 text-blue-300 text-xs font-mono font-bold shadow-[0_0_15px_rgba(59,130,246,0.25)]">
+              <span className="w-2 h-2 rounded-full bg-blue-400 animate-ping" />
+              <span>HORIZON OS RUNTIME • OPENXR 1.1 COMPATIBLE</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
               Aetheris for <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-300">
                 Meta Horizon OS & Quest
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal">
+            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
               Built for Meta Quest 3 and Horizon OS spatial ecosystems. Deploy zero-latency volumetric conversion nodes with native OpenXR hand-tracking, stereoscopic RGB passthrough, and Unity/Unreal Engine SDKs.
             </p>
+
+            {/* Live High-Tech HUD Metrics Ticker */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Passthrough Mode</div>
+                <div className="text-sm font-mono font-bold text-blue-300">RGB Stereoscopic</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Hand Tracking</div>
+                <div className="text-sm font-mono font-bold text-cyan-300">26-Joint Skeletal</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Anchor Precision</div>
+                <div className="text-sm font-mono font-bold text-purple-300">&lt; 0.6ms Jitter</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">GPU Optimization</div>
+                <div className="text-sm font-mono font-bold text-emerald-300">Snapdragon XR2 Gen 2</div>
+              </div>
+            </div>
+
+            {/* Quick Hero Actions */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  document.getElementById('quest-sandbox')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>Test Optical Hand Tracking</span>
+              </button>
+              
+              <button
+                onClick={copyCode}
+                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Terminal className="w-3.5 h-3.5 text-blue-400" />
+                <span>Copy OpenXR Unity SDK</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* ================= INTERACTIVE SECTION: Quest 3 Passthrough & Hand-Tracking Simulator ================= */}
-        <div className="rounded-3xl border border-blue-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="quest-sandbox" className="rounded-3xl border border-blue-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -139,7 +185,6 @@ aetherisTracker.onIntentDetected((intent) => {
               </p>
             </div>
 
-            {/* Gesture Selector */}
             <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
               {[
                 { id: 'pinch', label: 'Index Pinch' },
@@ -166,7 +211,6 @@ aetherisTracker.onIntentDetected((intent) => {
             onMouseMove={handleMouseMove}
             className="relative h-80 sm:h-96 rounded-2xl border-2 border-blue-500/30 bg-gradient-to-b from-slate-950 via-slate-900 to-black overflow-hidden select-none cursor-crosshair flex items-center justify-center group shadow-2xl"
           >
-            {/* Cyber Grid Passthrough simulation */}
             <div className="absolute inset-0 bg-grid-cyber opacity-30" />
 
             {/* Hand Skeleton Wireframe Target */}
@@ -202,7 +246,7 @@ aetherisTracker.onIntentDetected((intent) => {
 
         {/* Capabilities Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-blue-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-blue-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 group-hover:scale-110 transition-transform">
               <Box className="w-6 h-6" />
             </div>
@@ -212,7 +256,7 @@ aetherisTracker.onIntentDetected((intent) => {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-cyan-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-cyan-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 group-hover:scale-110 transition-transform">
               <Layers className="w-6 h-6" />
             </div>
@@ -222,7 +266,7 @@ aetherisTracker.onIntentDetected((intent) => {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-indigo-500/50 transition-all space-y-4 shadow-xl group">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-indigo-500/50 transition-all space-y-4 shadow-xl group hover:-translate-y-1">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 group-hover:scale-110 transition-transform">
               <Cpu className="w-6 h-6" />
             </div>
@@ -268,6 +312,9 @@ aetherisTracker.onIntentDetected((intent) => {
             <pre className="text-slate-200">{CODE_SNIPPETS[activeEngineTab]}</pre>
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/platforms/horizon-os" />
 
       </main>
 

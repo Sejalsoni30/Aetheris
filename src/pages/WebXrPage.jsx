@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   Globe, 
   ShieldCheck, 
@@ -15,7 +16,8 @@ import {
   Gauge, 
   Sliders, 
   Zap,
-  Play
+  Play,
+  ArrowRight
 } from 'lucide-react';
 import { sound } from '../utils/sound';
 
@@ -62,7 +64,6 @@ export default function WebXrPage() {
   };
 
   const dev = DEVICES[selectedDevice];
-  // Calculate dynamic frame time
   const calculatedFrameTime = Number((dev.baseLatency + (polyCount / 50000) * 1.8 + dynamicLights * 0.9).toFixed(1));
   const isWithinBudget = calculatedFrameTime < dev.budget;
 
@@ -110,29 +111,73 @@ if (navigator.xr) {
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
         
-        {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-emerald-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
-          <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold">
-              <Globe className="w-3.5 h-3.5 text-emerald-400" />
-              <span>W3C OPEN IMMERSIVE WEB SPECIFICATION</span>
+        {/* ================= HERO SECTION with Glowing Ambient Backdrop ================= */}
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/95 via-slate-900/80 to-emerald-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-4xl space-y-6">
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold shadow-[0_0_15px_rgba(16,185,129,0.25)]">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span>W3C OPEN IMMERSIVE WEB SPECIFICATION • OPEN STANDARD</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl font-black font-display tracking-tight text-white leading-tight">
+            <h1 className="text-4xl sm:text-6xl font-black font-display tracking-tight text-white leading-tight">
               Aetheris for <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-300">
                 WebXR Open Standards
               </span>
             </h1>
 
-            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal">
+            <p className="text-slate-200 text-base sm:text-lg leading-relaxed font-normal max-w-2xl">
               Hardware-agnostic 4D spatial computing. Standardized under the W3C Immersive Web Working Group, enabling seamless volumetric spatial ad delivery across every WebXR-compatible browser without app store gatekeepers.
             </p>
+
+            {/* Live High-Tech HUD Metrics Ticker */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4">
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Standardization</div>
+                <div className="text-sm font-mono font-bold text-emerald-300">W3C Immersive Web</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Cross-Hardware</div>
+                <div className="text-sm font-mono font-bold text-cyan-300">100% Interoperable</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Anchor Tracking</div>
+                <div className="text-sm font-mono font-bold text-purple-300">Hit-Test & Surface</div>
+              </div>
+              <div className="p-3.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">App Store Fee</div>
+                <div className="text-sm font-mono font-bold text-amber-300">0% Direct Delivery</div>
+              </div>
+            </div>
+
+            {/* Quick Hero Actions */}
+            <div className="flex flex-wrap gap-3 pt-2">
+              <button
+                onClick={() => {
+                  sound.playClick();
+                  document.getElementById('webxr-benchmark')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-mono text-xs font-bold shadow-lg transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>Profile Hardware Frame Budget</span>
+              </button>
+              
+              <button
+                onClick={copyCode}
+                className="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 hover:text-white font-mono text-xs transition-all cursor-pointer flex items-center space-x-2"
+              >
+                <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Copy W3C WebXR Script</span>
+              </button>
+            </div>
           </div>
         </div>
 
         {/* ================= INTERACTIVE SECTION: WebXR Cross-Device Profiler ================= */}
-        <div className="rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+        <div id="webxr-benchmark" className="rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
           
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
             <div>
@@ -148,7 +193,6 @@ if (navigator.xr) {
               </p>
             </div>
 
-            {/* Benchmark Action */}
             <button
               onClick={runBenchmark}
               className="px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold transition-all flex items-center space-x-2 cursor-pointer shadow-lg shrink-0"
@@ -164,7 +208,7 @@ if (navigator.xr) {
               <button
                 key={key}
                 onClick={() => { sound.playClick(); setSelectedDevice(key); }}
-                className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer hover:-translate-y-0.5 ${
                   selectedDevice === key
                     ? 'bg-emerald-500/20 border-emerald-400/50 shadow-[0_0_20px_rgba(16,185,129,0.25)]'
                     : 'bg-white/[0.03] border-white/10 hover:border-white/20'
@@ -307,6 +351,9 @@ if (navigator.xr) {
             <pre className="text-slate-200">{xrCode}</pre>
           </div>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/platforms/webxr" />
 
       </main>
 

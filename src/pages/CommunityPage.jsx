@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   MessageSquare, 
   Share2, 
@@ -111,13 +112,17 @@ export default function CommunityPage({ initialChannel = 'discord' }) {
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
       <PageHeader section="Connect" title={channelTitles[activeTab] || 'Developer Ecosystem'} />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 relative">
         
+        {/* Ambient Hero Glow Halos */}
+        <div className="absolute top-8 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-purple-500/15 rounded-full blur-[140px] pointer-events-none" />
+
         {/* Hero Section */}
-        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-cyan-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-purple-950/40 backdrop-blur-2xl p-8 sm:p-12 lg:p-16 shadow-2xl">
           <div className="max-w-3xl space-y-6">
-            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold">
-              <Users className="w-3.5 h-3.5 text-cyan-400" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 text-xs font-mono font-bold">
+              <Users className="w-3.5 h-3.5 text-purple-400" />
               <span>GLOBAL DEVELOPER & RESEARCH GUILD</span>
             </div>
 
@@ -144,7 +149,7 @@ export default function CommunityPage({ initialChannel = 'discord' }) {
                   onClick={() => { sound.playClick(); setActiveTab(tab.id); }}
                   className={`px-5 py-2.5 rounded-xl text-xs font-mono flex items-center space-x-2 transition-all cursor-pointer ${
                     activeTab === tab.id
-                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.3)] font-bold'
+                      ? 'bg-purple-500/20 text-purple-300 border border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.3)] font-bold'
                       : 'bg-slate-900/90 text-slate-300 border border-white/15 hover:text-white hover:bg-slate-800'
                   }`}
                 >
@@ -154,6 +159,27 @@ export default function CommunityPage({ initialChannel = 'discord' }) {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Technical HUD Metrics Ticker */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {[
+            { label: 'Active Architects', val: '1,420', badge: 'Online Now', icon: Users, color: 'text-purple-400' },
+            { label: 'Open Research Grants', val: '$45,000', badge: 'Active Pool', icon: Gift, color: 'text-amber-400' },
+            { label: 'Spatial SDK License', val: '100% Free', badge: 'Apache 2.0', icon: Code, color: 'text-cyan-400' },
+            { label: 'Guild P2P Latency', val: '0.42 ms', badge: 'Decentralized', icon: Zap, color: 'text-emerald-400' },
+          ].map((item, idx) => (
+            <div key={idx} className="p-5 sm:p-6 rounded-2xl bg-slate-900/90 border border-white/15 shadow-xl hover:border-purple-500/40 transition-all">
+              <div className="flex items-center justify-between text-xs font-mono text-slate-300 mb-2">
+                <span>{item.label}</span>
+                <item.icon className={`w-4 h-4 ${item.color}`} />
+              </div>
+              <div className="text-2xl sm:text-3xl font-black font-display text-white">{item.val}</div>
+              <span className="inline-block mt-2 text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-slate-300 border border-white/15">
+                {item.badge}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* ================= INTERACTIVE SECTION: Interactive Developer Console ================= */}
@@ -305,6 +331,9 @@ export default function CommunityPage({ initialChannel = 'discord' }) {
             </button>
           </form>
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath={`/community/${activeTab}`} />
 
       </main>
 

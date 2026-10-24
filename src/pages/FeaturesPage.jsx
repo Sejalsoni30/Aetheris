@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
+import SpatialModuleExplorer from '../components/SpatialModuleExplorer';
 import { 
   Sparkles, 
   Layers, 
@@ -100,10 +101,14 @@ export default function FeaturesPage() {
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
       <PageHeader section="Architecture" title="Bento Showcase" />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-12 relative">
         
+        {/* Ambient Glow Halos */}
+        <div className="absolute top-8 left-1/4 w-96 h-96 bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-20 right-1/4 w-96 h-96 bg-purple-500/15 rounded-full blur-[140px] pointer-events-none" />
+
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="text-center max-w-3xl mx-auto space-y-4 relative z-10">
           <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 text-xs font-mono font-bold">
             <Sparkles className="w-3.5 h-3.5" />
             <span>FULL BENTO FEATURE ECOSYSTEM</span>
@@ -177,6 +182,9 @@ export default function FeaturesPage() {
             </div>
           ))}
         </div>
+
+        {/* Cross-Protocol Matrix Navigation Deck */}
+        <SpatialModuleExplorer currentPath="/architecture/features" />
 
       </main>
 

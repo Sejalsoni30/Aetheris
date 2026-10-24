@@ -1,9 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageHeader from '../components/PageHeader';
 import Footer from '../components/Footer';
-import { FileText, CheckCircle2, ShieldCheck, Scale, AlertCircle } from 'lucide-react';
+import { 
+  FileText, 
+  CheckCircle2, 
+  ShieldCheck, 
+  Scale, 
+  AlertCircle, 
+  Calculator, 
+  Coins, 
+  TrendingUp, 
+  Sparkles,
+  Zap,
+  ArrowRight
+} from 'lucide-react';
+import { sound } from '../utils/sound';
 
 export default function TermsPage() {
+  // Calculator State
+  const [impressions, setImpressions] = useState(2500000); // 2.5M
+  const [nodes, setNodes] = useState(850);
+  const [slaTier, setSlaTier] = useState('enterprise'); // 'standard' | 'enterprise' | 'sovereign'
+  const [simulatedBreach, setSimulatedBreach] = useState(false);
+
+  // Compute metrics based on sliders
+  const slaPercentages = { standard: '99.90%', enterprise: '99.99%', sovereign: '99.999%' };
+  const creditMultiplier = { standard: 0.00018, enterprise: 0.00024, sovereign: 0.00032 };
+  
+  const estimatedCredits = Math.round((impressions / 1000) * creditMultiplier[slaTier] * 1000);
+  const developerRoyalty = (estimatedCredits * 0.42).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  const latencyGuarantee = slaTier === 'sovereign' ? '< 0.32ms' : slaTier === 'enterprise' ? '< 0.65ms' : '< 1.10ms';
+  const refundGuarantee = (estimatedCredits * 0.15).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+  const triggerBreachSimulation = () => {
+    sound.playLaunchChord();
+    setSimulatedBreach(true);
+    setTimeout(() => setSimulatedBreach(false), 4000);
+  };
+
   return (
     <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col selection:bg-cyan-500/30">
       <PageHeader section="Protocol" title="Terms of Compute" />
@@ -31,10 +65,179 @@ export default function TermsPage() {
           </div>
         </div>
 
+        {/* ================= INTERACTIVE SECTION: SLA & Credit Calculator ================= */}
+        <div className="rounded-3xl border border-amber-500/30 bg-gradient-to-b from-slate-900/90 to-[#080d1a] backdrop-blur-2xl p-6 sm:p-10 shadow-2xl space-y-8">
+          
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+            <div>
+              <div className="inline-flex items-center space-x-2 text-xs font-mono text-amber-400 font-bold tracking-widest uppercase mb-1">
+                <Calculator className="w-3.5 h-3.5" />
+                <span>Interactive Yield & Allocation Engine</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-bold font-display text-white">
+                SLA Guarantee & Compute Credit Calculator
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Simulate spatial volumetric loads, developer royalties, and automated contractual uptime penalties.
+              </p>
+            </div>
+
+            {/* SLA Guarantee Tier Selector */}
+            <div className="flex items-center space-x-2 p-1 bg-white/5 border border-white/10 rounded-xl shrink-0">
+              {[
+                { id: 'standard', label: '99.9% Std' },
+                { id: 'enterprise', label: '99.99% Ent' },
+                { id: 'sovereign', label: '99.999% Sov' },
+              ].map(tier => (
+                <button
+                  key={tier.id}
+                  onClick={() => { sound.playClick(); setSlaTier(tier.id); }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                    slaTier === tier.id
+                      ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold shadow-[0_0_15px_rgba(245,158,11,0.3)]'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {tier.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            {/* Sliders Input Area */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Slider 1: Impressions */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono">
+                  <span className="text-slate-300">Monthly Volumetric Impressions:</span>
+                  <span className="text-amber-300 font-bold text-sm">{(impressions / 1000000).toFixed(1)}M Impressions</span>
+                </div>
+                <input
+                  type="range"
+                  min="200000"
+                  max="20000000"
+                  step="200000"
+                  value={impressions}
+                  onChange={(e) => {
+                    sound.playClick();
+                    setImpressions(Number(e.target.value));
+                  }}
+                  className="w-full accent-amber-400 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <span>200K / mo</span>
+                  <span>10M / mo</span>
+                  <span>20M / mo</span>
+                </div>
+              </div>
+
+              {/* Slider 2: Concurrent Raycast Nodes */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-xs font-mono">
+                  <span className="text-slate-300">Concurrent Distributed GPU Nodes:</span>
+                  <span className="text-cyan-300 font-bold text-sm">{nodes} Nodes</span>
+                </div>
+                <input
+                  type="range"
+                  min="50"
+                  max="3000"
+                  step="50"
+                  value={nodes}
+                  onChange={(e) => {
+                    sound.playClick();
+                    setNodes(Number(e.target.value));
+                  }}
+                  className="w-full accent-cyan-400 cursor-pointer"
+                />
+                <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                  <span>50 Edge Nodes</span>
+                  <span>1,500 Nodes</span>
+                  <span>3,000 Nodes</span>
+                </div>
+              </div>
+
+              {/* SLA Outage Simulation Trigger */}
+              <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <div className="text-xs font-mono font-bold text-slate-200">
+                    Smart Contract Breach Test
+                  </div>
+                  <div className="text-[11px] text-slate-400">
+                    Verify automated zero-delay SLA downtime refund payout.
+                  </div>
+                </div>
+
+                <button
+                  onClick={triggerBreachSimulation}
+                  className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-xs font-mono font-bold transition-all flex items-center justify-center space-x-2 cursor-pointer shadow-lg shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5" />
+                  <span>Simulate 0.02% Outage</span>
+                </button>
+              </div>
+
+              {simulatedBreach && (
+                <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/40 text-xs font-mono space-y-1 animate-in fade-in duration-200">
+                  <div className="text-amber-300 font-bold flex items-center space-x-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                    <span>CONTRACTUAL REFUND ISSUED: {refundGuarantee}</span>
+                  </div>
+                  <div className="text-slate-300 text-[11px]">
+                    Automatic smart contract payout credited to wallet 0x4a9...89f. No support tickets or manual dispute required.
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Live Calculation Cards Output */}
+            <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+              
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">SLA Uptime</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-amber-300">
+                  {slaPercentages[slaTier]}
+                </div>
+                <div className="text-[10px] text-slate-400">Multi-region failover</div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Max Latency</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-cyan-300">
+                  {latencyGuarantee}
+                </div>
+                <div className="text-[10px] text-slate-400">Guaranteed edge ceiling</div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Developer Royalty</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">
+                  {developerRoyalty}
+                </div>
+                <div className="text-[10px] text-slate-400">42% Protocol Pool Share</div>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1">
+                <div className="text-[10px] font-mono text-slate-400 uppercase">Compute Credits</div>
+                <div className="text-xl sm:text-2xl font-bold font-mono text-purple-300">
+                  {estimatedCredits.toLocaleString()}
+                </div>
+                <div className="text-[10px] text-slate-400">Tokens allocated/mo</div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
         {/* SLA & Terms Points */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-amber-500/50 transition-all space-y-4 shadow-xl group">
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 group-hover:scale-110 transition-transform">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <h3 className="text-xl font-bold font-display text-white">99.99% Uptime SLA</h3>
@@ -43,39 +246,23 @@ export default function TermsPage() {
             </p>
           </div>
 
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl">
-            <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300">
-              <Scale className="w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-bold font-display text-white">Fair Compute Allocation</h3>
-            <p className="text-slate-300 text-sm leading-relaxed font-normal">
-              Compute credits are metered purely on actual GPU tensor cycles executed. Transparent pricing with zero hidden egress or licensing penalties.
-            </p>
-          </div>
-
-          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300">
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-orange-500/50 transition-all space-y-4 shadow-xl group">
+            <div className="w-12 h-12 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 group-hover:scale-110 transition-transform">
               <ShieldCheck className="w-6 h-6" />
             </div>
-            <h3 className="text-xl font-bold font-display text-white">Ethical Spatial UX Policy</h3>
+            <h3 className="text-xl font-bold font-display text-white">Zero Chargebacks</h3>
             <p className="text-slate-300 text-sm leading-relaxed font-normal">
-              Strict rules against disruptive visual spam: no involuntary field-of-view blocking, flashing strobe shaders, or deceptive spatial anchors.
+              Conversion events are authenticated via cryptographic zero-knowledge gaze proofs, eliminating fraudulent volumetric ad click claims.
             </p>
           </div>
-        </div>
 
-        {/* Legal Text Document Container */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900/90 border border-white/15 space-y-6 shadow-2xl">
-          <h2 className="text-2xl font-bold font-display text-white">Compute Agreement Clauses</h2>
-          <div className="space-y-4 text-slate-200 text-sm leading-relaxed">
-            <p>
-              1. <strong className="text-white font-semibold">Spatial Anchor Royalty Distribution:</strong> Developers integrating the Aetheris SDK into their VR/AR applications receive 85% of volumetric ad conversion proceeds distributed continuously via cryptographic escrow.
-            </p>
-            <p>
-              2. <strong className="text-white font-semibold">Rate Limits and Volumetric Throttling:</strong> Free-tier developers are allocated up to 100,000 monthly volumetric sessions. Enterprise developers enjoy unlimited burst compute with dedicated node provisioning.
-            </p>
-            <p>
-              3. <strong className="text-white font-semibold">Dispute Resolution and Jurisdiction:</strong> All algorithmic attribution discrepancies are resolved via verifiable deterministic cryptographic audit trails logged at timestamp of intent generation.
+          <div className="p-8 rounded-3xl bg-slate-900/90 border border-white/15 hover:border-yellow-500/50 transition-all space-y-4 shadow-xl group">
+            <div className="w-12 h-12 rounded-2xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300 group-hover:scale-110 transition-transform">
+              <Scale className="w-6 h-6" />
+            </div>
+            <h3 className="text-xl font-bold font-display text-white">Royalty Transparency</h3>
+            <p className="text-slate-300 text-sm leading-relaxed font-normal">
+              Developers receive real-time tokenized compute disbursements direct to connected wallets on every verified intent conversion.
             </p>
           </div>
         </div>

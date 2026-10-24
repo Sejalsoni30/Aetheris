@@ -37,7 +37,7 @@ export default function RoiCalculatorModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-2xl animate-fade-in">
       <div 
-        className="relative w-full max-w-4xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-4xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto touch-momentum overscroll-contain"
         style={{ boxShadow: `0 0 80px ${theme.glow}` }}
       >
         {/* Header */}
@@ -69,7 +69,8 @@ export default function RoiCalculatorModal() {
               sound.playClick();
               setIsRoiModalOpen(false);
             }}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center active:scale-95 touch-manipulation"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -191,7 +192,7 @@ export default function RoiCalculatorModal() {
         </div>
 
         {/* Summary Highlights */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
           <div className="p-3.5 rounded-xl bg-slate-950/80 border border-white/10 text-center">
             <div className="text-[10px] font-mono text-slate-400">NET ROI MULTIPLIER</div>
             <div className="text-2xl font-bold font-display text-emerald-400 mt-1">{roiMultiplier}x</div>

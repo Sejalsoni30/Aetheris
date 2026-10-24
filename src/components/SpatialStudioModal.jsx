@@ -70,7 +70,7 @@ export default function SpatialStudioModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-2xl animate-fade-in">
       <div 
-        className="relative w-full max-w-5xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-5xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto touch-momentum overscroll-contain"
         style={{ boxShadow: `0 0 80px ${theme.glow}` }}
       >
         {/* Header */}
@@ -102,7 +102,8 @@ export default function SpatialStudioModal() {
               sound.playClick();
               setIsStudioOpen(false);
             }}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center active:scale-95 touch-manipulation"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -208,7 +209,7 @@ export default function SpatialStudioModal() {
             </div>
 
             {/* 4. Budget & Nodes */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <div className="p-3 rounded-xl bg-slate-950/80 border border-white/10">
                 <div className="text-[10px] font-mono text-slate-400">MONTHLY BUDGET</div>
                 <div className="text-lg font-bold font-display text-emerald-400 mt-0.5">{budgetTier}</div>
@@ -288,7 +289,7 @@ export default function SpatialStudioModal() {
                 <span className="text-emerald-400">Real-Time Sync</span>
               </div>
 
-              <div className="max-h-40 overflow-y-auto space-y-2 pr-1">
+              <div className="max-h-40 overflow-y-auto touch-momentum space-y-2 pr-1">
                 {customCampaigns.map((camp) => (
                   <div 
                     key={camp.id}
@@ -311,10 +312,11 @@ export default function SpatialStudioModal() {
                         sound.playClick();
                         removeCampaign(camp.id);
                       }}
-                      className="p-1.5 rounded-lg text-slate-500 hover:text-red-400 hover:bg-white/5 transition-colors cursor-pointer"
+                      className="w-10 h-10 rounded-lg text-slate-500 hover:text-red-400 hover:bg-white/5 active:scale-95 transition-all cursor-pointer flex items-center justify-center touch-manipulation"
                       title="Decommission Campaign"
+                      aria-label="Decommission Campaign"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 ))}

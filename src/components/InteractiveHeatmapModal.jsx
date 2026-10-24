@@ -27,15 +27,25 @@ export default function InteractiveHeatmapModal() {
 
   if (!isHeatmapOpen) return null;
 
-  const handleCanvasClick = (e) => {
+  const addFixationAt = (clientX, clientY, currentTarget) => {
     sound.playHover();
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.round(((e.clientX - rect.left) / rect.width) * 100);
-    const y = Math.round(((e.clientY - rect.top) / rect.height) * 100);
+    const rect = currentTarget.getBoundingClientRect();
+    const x = Math.max(5, Math.min(95, Math.round(((clientX - rect.left) / rect.width) * 100)));
+    const y = Math.max(5, Math.min(95, Math.round(((clientY - rect.top) / rect.height) * 100)));
     const duration = Number((2.0 + Math.random() * 3.5).toFixed(1));
 
     setFixations(prev => [...prev.slice(-7), { x, y, weight: 1.0, duration }]);
     setPupilIndex(Number((3.8 + Math.random() * 1.2).toFixed(1)));
+  };
+
+  const handleCanvasClick = (e) => {
+    addFixationAt(e.clientX, e.clientY, e.currentTarget);
+  };
+
+  const handleCanvasTouch = (e) => {
+    if (e.touches && e.touches[0]) {
+      addFixationAt(e.touches[0].clientX, e.touches[0].clientY, e.currentTarget);
+    }
   };
 
   const clearHeatmap = () => {
@@ -50,7 +60,7 @@ export default function InteractiveHeatmapModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/80 backdrop-blur-2xl animate-fade-in">
       <div 
-        className="relative w-full max-w-4xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto"
+        className="relative w-full max-w-4xl rounded-3xl glass-panel-elevated border border-white/20 p-5 sm:p-8 shadow-2xl space-y-6 max-h-[92vh] overflow-y-auto touch-momentum overscroll-contain"
         style={{ boxShadow: `0 0 80px ${theme.glow}` }}
       >
         {/* Header */}
@@ -72,7 +82,7 @@ export default function InteractiveHeatmapModal() {
                 </span>
               </div>
               <p className="text-xs font-mono text-slate-400">
-                Click or drag on the viewport below to simulate XR headset gaze fixations and observe neural intent synthesis
+                Tap or click on the viewport below to simulate XR headset gaze fixations and observe neural intent synthesis
               </p>
             </div>
           </div>
@@ -82,7 +92,8 @@ export default function InteractiveHeatmapModal() {
               sound.playClick();
               setIsHeatmapOpen(false);
             }}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center active:scale-95 touch-manipulation"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -123,7 +134,8 @@ export default function InteractiveHeatmapModal() {
         {/* Interactive Heatmap Canvas Viewport */}
         <div 
           onClick={handleCanvasClick}
-          className="relative w-full aspect-[16/9] max-h-[420px] rounded-2xl bg-slate-950 border border-white/15 p-4 overflow-hidden cursor-crosshair group shadow-inner"
+          onTouchStart={handleCanvasTouch}
+          className="relative w-full aspect-[16/9] min-h-[220px] max-h-[420px] rounded-2xl bg-slate-950 border border-white/15 p-4 overflow-hidden cursor-crosshair group shadow-inner touch-none"
         >
           {/* Background Grid & 3D Environment Wireframe */}
           <div className="absolute inset-0 bg-grid-cyber opacity-30 pointer-events-none" />

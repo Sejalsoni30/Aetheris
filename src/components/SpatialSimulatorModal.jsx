@@ -5,13 +5,10 @@ import {
   Orbit, 
   Sparkles, 
   Zap, 
-  ShieldCheck, 
   Layers, 
-  TrendingUp, 
   CheckCircle, 
   RotateCw,
-  Cpu,
-  ArrowRight
+  Cpu 
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { sound } from '../utils/sound';
@@ -21,7 +18,6 @@ export default function SpatialSimulatorModal() {
 
   const [selectedCohort, setSelectedCohort] = useState('VisionOS Spatial Shoppers');
   const [budgetTier, setBudgetTier] = useState('Enterprise (650 Nodes)');
-  const [strategy, setStrategy] = useState('Predictive Gaze & Volumetric Placement');
   const [isDeploying, setIsDeploying] = useState(false);
   const [deploymentResult, setDeploymentResult] = useState(null);
 
@@ -90,7 +86,8 @@ export default function SpatialSimulatorModal() {
               sound.playClick();
               setIsSimulatorOpen(false);
             }}
-            className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer"
+            className="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-colors cursor-pointer flex items-center justify-center active:scale-95 touch-manipulation"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
@@ -133,7 +130,7 @@ export default function SpatialSimulatorModal() {
             <Zap className="w-3.5 h-3.5 text-amber-400" />
             <span>2. Edge Node Deployment Tier:</span>
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             {[
               { tier: 'Starter (120 Nodes)', price: '$5,000/mo' },
               { tier: 'Enterprise (650 Nodes)', price: '$25,000/mo' },
